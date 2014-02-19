@@ -17,4 +17,5 @@ module.exports = (compound) ->
     app.use express.cookieParser 'secret'
     app.use express.session secret: 'secret'
     app.use express.methodOverride()
+    app.locals.title = 'ChantBox.io'
     app.use app.router

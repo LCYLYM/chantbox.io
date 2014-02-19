@@ -1,0 +1,50 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Varela Round", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  background: #fafafa;
+}
+#head {
+  background: #3aabea;
+  padding: 2em 0 0;
+}
+#head .logo {
+  color: #fff;
+  font-family: "Varela Round", Helvetica, Arial, sans-serif;
+  font-size: 1.6em;
+}
+#intro {
+  background: #3aabea;
+  text-align: center;
+  padding: 3em 0;
+}
+#intro div {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  padding: 1.5em 0;
+  color: #f1f1f1;
+  font-size: 1.4em;
+  font-weight: 300;
+}
+#intro input[type=text] {
+  border: 0;
+  border-radius: 4px;
+  margin-right: 5px;
+  font-size: 24pt;
+  padding: 0.5em;
+}
+#intro input[type=submit] {
+  background: #1790d3;
+  border: 0;
+  color: #fff;
+  font-size: 24pt;
+  border-radius: 4px;
+  padding: 0.5em;
+  margin-top: -10px;
+}
+#description {
+  padding: 10px;
+  color: #999;
+  text-align: center;
+}
