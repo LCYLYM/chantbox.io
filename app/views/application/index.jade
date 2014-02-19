@@ -1,6 +1,6 @@
 #head
   .container
-    a.logo chantbox.io
+    a.logo(href=pathTo.root()) chantbox.io
 
 section#intro
   .container
@@ -8,3 +8,8 @@ section#intro
     form(onsubmit="location.href='/'+this.room.value; return false")
       input(type="text", name="room", value=randomHash())
       input(type="submit", value="JOIN")
+
+footer
+  p created for funs by 
+    a(href='http://twitter.com/sagish') @sagish
+  p contribute 

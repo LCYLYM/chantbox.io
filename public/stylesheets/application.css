@@ -5,20 +5,37 @@ body {
   font-family: "Varela Round", Helvetica, Arial, sans-serif;
   font-size: 16px;
   background: #fafafa;
+  height: 100%;
 }
 #head {
   background: #3aabea;
-  padding: 2em 0 0;
+  padding: 3% 0;
 }
 #head .logo {
   color: #fff;
   font-family: "Varela Round", Helvetica, Arial, sans-serif;
   font-size: 1.6em;
 }
+footer {
+  text-align: center;
+  color: #aaa;
+  padding: 10px;
+}
+footer p {
+  display: inline-block;
+  margin-left: 10px;
+  border-left: 1px solid #ddd;
+  padding-left: 10px;
+}
+footer p:nth-child(1) {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
 #intro {
   background: #3aabea;
   text-align: center;
-  padding: 3em 0;
+  height: 60%;
 }
 #intro div {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -29,19 +46,21 @@ body {
 }
 #intro input[type=text] {
   border: 0;
-  border-radius: 4px;
-  margin-right: 5px;
-  font-size: 24pt;
-  padding: 0.5em;
+  font-size: 16pt;
+  padding: 10px 10px;
+  margin-right: 10px;
 }
 #intro input[type=submit] {
-  background: #1790d3;
+  background: #147eb9;
+  border-radius: 5px;
   border: 0;
   color: #fff;
-  font-size: 24pt;
-  border-radius: 4px;
-  padding: 0.5em;
   margin-top: -10px;
+  font-size: 14pt;
+  padding: 10px 20px;
+}
+#intro input[type=submit]:hover {
+  background: #116c9e;
 }
 #description {
   padding: 10px;
