@@ -1,0 +1,10 @@
+#head
+  .container
+    a.logo chantbox.io
+
+section#intro
+  .container
+    div effortlessly chat & chant with friends and colleagues
+    form(onsubmit="location.href='/'+this.room.value; return false")
+      input(type="text", name="room", value=randomHash())
+      input(type="submit", value="JOIN")
