@@ -9,7 +9,6 @@
 
   chantbox.controller('RoomController', [
     '$scope', 'Socket', function($scope, socket) {
-      var message;
       $scope.messages = [
         {
           time: new Date,
@@ -21,23 +20,29 @@
       socket.on('connect', function() {
         return socket.emit('room:join', $scope.room, $scope.as);
       });
-      socket.on('room:join', function(data, users) {
-        message('system', "" + data.user.as + " joined " + data.room);
+      socket.on('room:join', function(users) {
         $scope.users = users;
         return $scope.$apply();
       });
-      socket.on('room:leave', function(data) {
-        message('system', "" + data.as + " left " + data.room);
-        return delete $scope.users[data.as];
+      socket.on('room:leave', function(as) {
+        delete $scope.users[as];
+        return $scope.$apply();
       });
-      return message = function(type, content, as) {
+      socket.on('message', function(data) {
         $scope.messages.push({
           time: new Date,
-          type: type,
-          content: content,
-          as: as
+          type: data.type,
+          content: data.content,
+          user: data.user
         });
         return $scope.$apply();
+      });
+      return $scope.send = function($event) {
+        if ($event.which !== 13 || !$event.target.value.trim()) {
+          return;
+        }
+        socket.emit('message', $event.target.value);
+        return $event.target.value = '';
       };
     }
   ]);

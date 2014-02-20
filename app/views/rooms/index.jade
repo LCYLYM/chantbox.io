@@ -1,10 +1,17 @@
 section#room(ng-controller='RoomController', ng-init='room="#{room}"; as="#{as}"')
+  if (as.indexOf('Guest') == -1)
+    #as Connected to this room as <em>#{as}</em> | 
+      a(ng-click="logout()") Logout
+  else
+    #as 
+      a(ng-click="login()") Indentify
+
   #sidebar
     a.logo(href=pathTo.root()) chantbox.io
     h6 Users on ##{room}
     ul.users
       li(ng-repeat="u in users")
-        img(ng-src="//www.gravatar.com/avatar/{{u.hash}}?s=50")
+        img(ng-src="//www.gravatar.com/avatar/{{u.hash}}?s=50", width="50", height="50")
         .name {{u.name}}
         .joined joined {{u.joined | date: 'yyyy-MM-dd HH:mm'}}
 
@@ -12,10 +19,11 @@ section#room(ng-controller='RoomController', ng-init='room="#{room}"; as="#{as}"
     h2 ##{room}
 
     ul
-      li(ng-repeat="m in messages", ng-class="{{m.type}}")
+      li(ng-repeat="m in messages", ng-class="m.type")
+        img(ng-src="//www.gravatar.com/avatar/{{m.user.hash}}?s=30", width="30", height="30", ng-show="m.type == 'user'").avatar
         time {{m.time | date: 'yyyy-MM-dd HH:mm'}}
         span.content {{m.content}}
         
-  input#input(ng-model='input')
+  input#input(ng-keyup="send($event)", placeholder="YOLLO!")
 
 

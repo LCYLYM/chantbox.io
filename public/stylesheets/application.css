@@ -82,6 +82,15 @@ footer p:nth-child(1) {
 #room {
   background: #fafafa;
   overflow: hidden;
+  width: 100%;
+  min-width: 1000px;
+}
+#room #as {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #666;
+  font-size: 12px;
 }
 #room #sidebar {
   width: 300px;
@@ -137,6 +146,19 @@ footer p:nth-child(1) {
 #room #chatter li {
   border-top: 1px solid #fff;
   padding: 5px 0;
+  overflow: hidden;
+}
+#room #chatter li.system .content {
+  color: #aaa;
+}
+#room #chatter li.user img.avatar {
+  border-radius: 15px;
+  float: left;
+  margin-right: 10px;
+}
+#room #chatter ul {
+  overflow-y: auto;
+  height: 80%;
 }
 #room #chatter time {
   display: block;
