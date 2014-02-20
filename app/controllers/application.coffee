@@ -6,7 +6,7 @@ module.exports = class ApplicationController
   constructor: (init) ->
     init.before (c) =>
       @c = c
-      c.next()
+      c.next() 
 
   index: =>
     @c.render {page: "homepage"}
