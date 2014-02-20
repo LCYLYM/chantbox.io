@@ -1,5 +1,7 @@
-window.chantbox.controller 'RoomController', ['$scope', 'Socket', ($scope, socket) ->
+window.chantbox.controller 'RoomController', ['$scope', 'Socket', 'Chatter', ($scope, socket, Chatter) ->
   $scope.messages = [{time: new Date, type: 'system', content: "Connecting..."}]
+  for i in [0..20]
+    $scope.messages.push {time: new Date, type: 'system', content: 'lorem upsum dolor sit amet ' + i}
   $scope.users = {}
   
   socket.on 'connect', ->
@@ -31,6 +33,7 @@ window.chantbox.controller 'RoomController', ['$scope', 'Socket', ($scope, socke
   message = (data) ->
     $scope.messages.push {time: new Date, type: data.type, content: data.content, user: data.user}
     $scope.$apply()
+    Chatter.scrollToBottom()
 
   join = (notify=true) ->
     socket.emit 'room:join', $scope.room, $scope.as, notify

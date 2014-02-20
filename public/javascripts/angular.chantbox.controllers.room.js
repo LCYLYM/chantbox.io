@@ -1,7 +1,7 @@
 (function() {
   window.chantbox.controller('RoomController', [
-    '$scope', 'Socket', function($scope, socket) {
-      var join, message;
+    '$scope', 'Socket', 'Chatter', function($scope, socket, Chatter) {
+      var i, join, message, _i;
       $scope.messages = [
         {
           time: new Date,
@@ -9,6 +9,13 @@
           content: "Connecting..."
         }
       ];
+      for (i = _i = 0; _i <= 20; i = ++_i) {
+        $scope.messages.push({
+          time: new Date,
+          type: 'system',
+          content: 'lorem upsum dolor sit amet ' + i
+        });
+      }
       $scope.users = {};
       socket.on('connect', function() {
         return join();
@@ -51,7 +58,8 @@
           content: data.content,
           user: data.user
         });
-        return $scope.$apply();
+        $scope.$apply();
+        return Chatter.scrollToBottom();
       };
       return join = function(notify) {
         if (notify == null) {
