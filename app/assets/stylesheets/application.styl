@@ -4,18 +4,28 @@ html
 body
   padding 0
   margin 0
-  font-family "Varela Round", Helvetica, Arial, sans-serif
+  font-family 'Lato', arial, helvetica, sans-serif
   font-size 16px
   background #fafafa
   height 100%
+  color #110013
+  font-weight 300
+
+ul
+li
+  list-style-type none
+  margin 0
+  padding 0
 
 #head
   background $bg1
-  padding 3% 0
-  .logo
-    color #fff
-    font-family "Varela Round", Helvetica, Arial, sans-serif
-    font-size 1.6em
+
+a.logo
+  color #fff
+  padding 10px
+  font-family "Varela Round", Helvetica, Arial, sans-serif
+  font-size 1.6em
+  display inline-block
 
 footer
   text-align center
@@ -31,37 +41,120 @@ footer
       padding 0
       margin 0
 
+//HOMEPAGE
 
-#intro
-  background $bg1
-  text-align center
-  height 60%
+#homepage 
 
-  div
-    font-family "Helvetica Neue", Helvetica, Arial, sans-serif
-    padding 1.5em 0
-    color #f1f1f1
-    font-size 1.4em
-    font-weight 300
+  #head
+    padding 3% 0
+    text-align center
 
-  input[type=text]
-    border 0
-    font-size 16pt
-    padding 10px 10px
-    margin-right 10px
+  #intro
+    background $bg1
+    text-align center
+    height 60%
 
-  input[type=submit]
-    background darken($bg1, 30%)
-    border-radius 5px
-    border 0
+    div
+      padding 1.5em 0
+      color #f1f1f1
+      font-size 1.4em
+      font-weight 300
+
+    input[type=text]
+      border 0
+      font-size 16pt
+      padding 10px 10px
+      margin-right 10px
+
+    input[type=submit]
+      background darken($bg1, 30%)
+      border-radius 5px
+      border 0
+      color #fff
+      margin-top -10px
+      font-size 14pt
+      padding 10px 20px
+      &:hover
+        background darken($bg1, 40%)
+
+  #description
+    padding 10px
+    color #999
+    text-align center
+
+// ROOM
+
+#room
+  background #fafafa
+  overflow hidden
+
+  #sidebar
+    width 300px
+    background #2a3541
     color #fff
-    margin-top -10px
-    font-size 14pt
-    padding 10px 20px
-    &:hover
-      background darken($bg1, 40%)
+    position absolute
+    left 0
+    top 0
+    height 100%
 
-#description
-  padding 10px
-  color #999
-  text-align center
+    a.logo
+      font-size 14px
+
+    h6
+      background lighten(#2a3541, 15%)
+      padding 5px 0 5px 10px
+
+    ul li
+      padding 10px
+      overflow hidden
+      img
+        width 50px
+        height 50px
+        border-radius 25px
+        box-shadow 0 0 5px #333
+        float left
+        margin-right 10px
+      .name
+        color #fff
+        padding-left 20px
+        padding-top 2px
+        display block
+      .joined
+        display block
+        font-size 12px
+        color #aaa
+
+    li 
+      border-bottom 1px solid lighten(#2a3541, 15%)
+
+  #chatter
+    position absolute
+    left 310px
+    ul
+    li
+      list-style-type none
+      margin 0
+    li
+      border-top 1px solid #fff
+      padding 5px 0
+
+    time
+      display block
+      color #aaa
+      font-size 12px
+
+    h2
+      color #ccc
+
+
+  #input
+    position absolute
+    bottom 0
+    left 300px
+    background #eee
+    height 20px
+    font-size 12px
+    padding 10px
+    display block
+    width 100%
+    border 0

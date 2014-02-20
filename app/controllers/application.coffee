@@ -9,4 +9,4 @@ module.exports = class ApplicationController
       c.next()
 
   index: =>
-    @c.render()
+    @c.render {page: "homepage"}

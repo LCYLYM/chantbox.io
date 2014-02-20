@@ -1,7 +1,7 @@
 module.exports = 
   development:
     driver: "mongodb"
-    url: "mongodb://localhost/chantbox-dev"
+    url: "mongodb://localhost/chantbox-development"
 
   test:
     driver: "mongodb"
