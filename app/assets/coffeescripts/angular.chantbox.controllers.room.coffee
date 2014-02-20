@@ -1,7 +1,5 @@
 window.chantbox.controller 'RoomController', ['$scope', 'Socket', 'Chatter', ($scope, socket, Chatter) ->
   $scope.messages = [{time: new Date, type: 'system', content: "Connecting..."}]
-  for i in [0..20]
-    $scope.messages.push {time: new Date, type: 'system', content: 'lorem upsum dolor sit amet ' + i}
   $scope.users = {}
   
   socket.on 'connect', ->
