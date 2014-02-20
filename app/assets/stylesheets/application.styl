@@ -87,6 +87,15 @@ footer
 #room
   background #fafafa
   overflow hidden
+  width 100%
+  min-width 1000px
+
+  #as 
+    position absolute
+    top 10px
+    right 10px
+    color #666
+    font-size 12px
 
   #sidebar
     width 300px
@@ -137,6 +146,19 @@ footer
     li
       border-top 1px solid #fff
       padding 5px 0
+      overflow hidden
+    li.system .content
+      color #aaa
+
+    li.user
+      img.avatar
+        border-radius 15px
+        float left
+        margin-right 10px
+
+    ul
+      overflow-y auto
+      height 80%
 
     time
       display block
