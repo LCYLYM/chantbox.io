@@ -2,11 +2,10 @@ doctype html
 html
   head
     title= title
-    != stylesheetLinkTag('bootstrap', 'application', 'bootstrap-responsive')
+    != stylesheetLinkTag('application', 'https://fonts.googleapis.com/css?family=Lato:300,400')
     script(src='/socket.io/socket.io.js', type='text/javascript')
-    != javascriptIncludeTag('https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js', 'chantbox')
-    != stylesheetLinkTag('http://fonts.googleapis.com/css?family=Varela+Round')
-    != stylesheetLinkTag('http://fonts.googleapis.com/css?family=Lato:300,400')
+    != javascriptIncludeTag('https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js')
+    != javascriptIncludeTag('angular.chantbox.app', 'angular.chantbox.services.socket', 'angular.chantbox.controllers.room')
 
   body(ng-app='chantbox', id=page)
     != body
