@@ -3,22 +3,40 @@
 
   chantbox.service('Socket', [
     '$rootScope', function($rootScope) {
-      return io.connect();
+      var socket;
+      return socket = io.connect('', {
+        reconnect: true,
+        'reconnect delay': 500
+      });
     }
   ]);
 
   chantbox.controller('RoomController', [
     '$scope', 'Socket', function($scope, socket) {
+      var join, message;
       $scope.messages = [
         {
           time: new Date,
           type: 'system',
-          content: "Joining..."
+          content: "Connecting..."
         }
       ];
       $scope.users = {};
       socket.on('connect', function() {
-        return socket.emit('room:join', $scope.room, $scope.as);
+        return join();
+      });
+      socket.on('disconnect', function() {
+        return message({
+          type: 'system',
+          content: 'Disconnected from server... trying to reconnect'
+        });
+      });
+      socket.on('reconnect', function() {
+        message({
+          type: 'system',
+          content: 'Reconnected'
+        });
+        return join(false);
       });
       socket.on('room:join', function(users) {
         $scope.users = users;
@@ -29,6 +47,16 @@
         return $scope.$apply();
       });
       socket.on('message', function(data) {
+        return message(data);
+      });
+      $scope.send = function($event) {
+        if ($event.which !== 13 || !$event.target.value.trim()) {
+          return;
+        }
+        socket.emit('message', $event.target.value);
+        return $event.target.value = '';
+      };
+      message = function(data) {
         $scope.messages.push({
           time: new Date,
           type: data.type,
@@ -36,13 +64,12 @@
           user: data.user
         });
         return $scope.$apply();
-      });
-      return $scope.send = function($event) {
-        if ($event.which !== 13 || !$event.target.value.trim()) {
-          return;
+      };
+      return join = function(notify) {
+        if (notify == null) {
+          notify = true;
         }
-        socket.emit('message', $event.target.value);
-        return $event.target.value = '';
+        return socket.emit('room:join', $scope.room, $scope.as, notify);
       };
     }
   ]);

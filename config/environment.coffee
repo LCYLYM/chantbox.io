@@ -3,18 +3,7 @@ module.exports = (compound) ->
   crypto = require 'crypto'
   express = require 'express'
   app = compound.app
-  compound.io = require('socket.io').listen compound.server, {log: false}
-
-  # pubsub = require 'express-io-pubsub'
-
-  # pubsub.listen io.sockets, {
-  #   collection: 'chantbox-pubsub-' + process.env.NODE_ENV
-  #   database: 'chantbox-' + process.env.NODE_ENV
-  #   host: 'localhost'
-  #   port: 27017
-  #   type: 'mongodb'
-  #   safe: true
-  # }
+  io = require('socket.io').listen compound.server, {log: false}
 
   app.configure ->
     app.enable 'coffee'
@@ -36,3 +25,6 @@ module.exports = (compound) ->
     #   next()
     app.locals.assets_timestamp = +(new Date)
     app.use app.router
+
+  io.sockets.on 'connection', (socket) ->
+    require('../app/events/rooms')(io.sockets, socket)
