@@ -2,19 +2,28 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: "Varela Round", Helvetica, Arial, sans-serif;
+  font-family: 'Lato', arial, helvetica, sans-serif;
   font-size: 16px;
   background: #fafafa;
   height: 100%;
+  color: #110013;
+  font-weight: 300;
+}
+ul,
+li {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 #head {
   background: #3aabea;
-  padding: 3% 0;
 }
-#head .logo {
+a.logo {
   color: #fff;
+  padding: 10px;
   font-family: "Varela Round", Helvetica, Arial, sans-serif;
   font-size: 1.6em;
+  display: inline-block;
 }
 footer {
   text-align: center;
@@ -32,25 +41,28 @@ footer p:nth-child(1) {
   padding: 0;
   margin: 0;
 }
-#intro {
+#homepage #head {
+  padding: 3% 0;
+  text-align: center;
+}
+#homepage #intro {
   background: #3aabea;
   text-align: center;
   height: 60%;
 }
-#intro div {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+#homepage #intro div {
   padding: 1.5em 0;
   color: #f1f1f1;
   font-size: 1.4em;
   font-weight: 300;
 }
-#intro input[type=text] {
+#homepage #intro input[type=text] {
   border: 0;
   font-size: 16pt;
   padding: 10px 10px;
   margin-right: 10px;
 }
-#intro input[type=submit] {
+#homepage #intro input[type=submit] {
   background: #147eb9;
   border-radius: 5px;
   border: 0;
@@ -59,11 +71,90 @@ footer p:nth-child(1) {
   font-size: 14pt;
   padding: 10px 20px;
 }
-#intro input[type=submit]:hover {
+#homepage #intro input[type=submit]:hover {
   background: #116c9e;
 }
-#description {
+#homepage #description {
   padding: 10px;
   color: #999;
   text-align: center;
+}
+#room {
+  background: #fafafa;
+  overflow: hidden;
+}
+#room #sidebar {
+  width: 300px;
+  background: #2a3541;
+  color: #fff;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+}
+#room #sidebar a.logo {
+  font-size: 14px;
+}
+#room #sidebar h6 {
+  background: #425366;
+  padding: 5px 0 5px 10px;
+}
+#room #sidebar ul li {
+  padding: 10px;
+  overflow: hidden;
+}
+#room #sidebar ul li img {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  box-shadow: 0 0 5px #333;
+  float: left;
+  margin-right: 10px;
+}
+#room #sidebar ul li .name {
+  color: #fff;
+  padding-left: 20px;
+  padding-top: 2px;
+  display: block;
+}
+#room #sidebar ul li .joined {
+  display: block;
+  font-size: 12px;
+  color: #aaa;
+}
+#room #sidebar li {
+  border-bottom: 1px solid #425366;
+}
+#room #chatter {
+  position: absolute;
+  left: 310px;
+}
+#room #chatter ul,
+#room #chatter li {
+  list-style-type: none;
+  margin: 0;
+}
+#room #chatter li {
+  border-top: 1px solid #fff;
+  padding: 5px 0;
+}
+#room #chatter time {
+  display: block;
+  color: #aaa;
+  font-size: 12px;
+}
+#room #chatter h2 {
+  color: #ccc;
+}
+#room #input {
+  position: absolute;
+  bottom: 0;
+  left: 300px;
+  background: #eee;
+  height: 20px;
+  font-size: 12px;
+  padding: 10px;
+  display: block;
+  width: 100%;
+  border: 0;
 }

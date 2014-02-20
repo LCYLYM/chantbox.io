@@ -3,7 +3,10 @@ html
   head
     title= title
     != stylesheetLinkTag('bootstrap', 'application', 'bootstrap-responsive')
-    != javascriptIncludeTag('https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js', 'application')
+    script(src='/socket.io/socket.io.js', type='text/javascript')
+    != javascriptIncludeTag('https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js', 'chantbox')
     != stylesheetLinkTag('http://fonts.googleapis.com/css?family=Varela+Round')
-  body
+    != stylesheetLinkTag('http://fonts.googleapis.com/css?family=Lato:300,400')
+
+  body(ng-app='chantbox', id=page)
     != body
