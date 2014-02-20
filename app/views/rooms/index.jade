@@ -6,17 +6,17 @@ section#room(ng-controller='RoomController', ng-init='room="#{room}"; as="#{as}"
     #as 
       a(ng-click="login()") Indentify
 
-  #sidebar
+  section#sidebar
     a.logo(href=pathTo.root()) chantbox.io
-    h6 Users on ##{room}
+    h5.onroom Users on ##{room}
     ul.users
       li(ng-repeat="u in users")
         img(ng-src="//www.gravatar.com/avatar/{{u.hash}}?s=50", width="50", height="50")
         .name {{u.name}}
         .joined joined {{u.joined | date: 'yyyy-MM-dd HH:mm'}}
 
-  #chatter
-    h2 ##{room}
+  section#chatter
+    h1 ##{room}
 
     ul
       li(ng-repeat="m in messages", ng-class="m.type")
@@ -24,6 +24,6 @@ section#room(ng-controller='RoomController', ng-init='room="#{room}"; as="#{as}"
         time {{m.time | date: 'yyyy-MM-dd HH:mm'}}
         span.content {{m.content}}
         
-  input#input(ng-keyup="send($event)", placeholder="YOLLO!")
+  input#input(ng-keyup="send($event)", placeholder="arigatou hey!")
 
 

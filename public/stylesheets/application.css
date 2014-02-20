@@ -1,13 +1,184 @@
 html,
+body,
+div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+abbr,
+address,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+samp,
+small,
+strong,
+sub,
+sup,
+var,
+b,
+i,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  background: transparent;
+  border: 0;
+  font-size: 100%;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+body {
+  line-height: 1;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+nav ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+a {
+  background: transparent;
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+ins {
+  background-color: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+mark {
+  background-color: #ff9;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+del {
+  text-decoration: line-through;
+}
+abbr[title],
+dfn[title] {
+  border-bottom: 1px dotted;
+  cursor: help;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+hr {
+  border: 0;
+  border-top: 1px solid #ccc;
+  display: block;
+  height: 1px;
+  margin: 1em 0;
+  padding: 0;
+}
+input,
+select {
+  vertical-align: middle;
+}
+html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Lato', arial, helvetica, sans-serif;
-  font-size: 16px;
+  font-family: 'Helvetica Neue', arial, helvetica, sans-serif;
+  font-size: 14px;
   background: #fafafa;
   height: 100%;
   color: #110013;
   font-weight: 300;
+  line-height: 1.4;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Helvetica Neue', arial, helvetica, sans-serif;
+  text-rendering: optimizelegibility;
+  font-weight: normal;
+}
+input[type=submit] {
+  cursor: pointer;
+}
+h1 {
+  font-size: 2.4rem;
+  font-weight: 300;
+}
+a {
+  cursor: pointer;
+  color: #3aabea;
 }
 ul,
 li {
@@ -15,20 +186,23 @@ li {
   margin: 0;
   padding: 0;
 }
-#head {
-  background: #3aabea;
-}
 a.logo {
   color: #fff;
   padding: 10px;
-  font-family: "Varela Round", Helvetica, Arial, sans-serif;
+  font-family: 'Lato', arial, helvetica, sans-serif;
   font-size: 1.6em;
   display: inline-block;
+  text-decoration: none;
+  font-weight: 400;
 }
 footer {
   text-align: center;
   color: #aaa;
   padding: 10px;
+}
+footer a {
+  color: #2a3541;
+  text-decoration: none;
 }
 footer p {
   display: inline-block;
@@ -41,7 +215,11 @@ footer p:nth-child(1) {
   padding: 0;
   margin: 0;
 }
+#homepage h1 {
+  padding-bottom: 1.5em;
+}
 #homepage #head {
+  background: #3aabea;
   padding: 3% 0;
   text-align: center;
 }
@@ -50,26 +228,27 @@ footer p:nth-child(1) {
   text-align: center;
   height: 60%;
 }
-#homepage #intro div {
+#homepage #intro h1 {
   padding: 1.5em 0;
   color: #f1f1f1;
-  font-size: 1.4em;
+  font-size: 3em;
   font-weight: 300;
+  font-family: 'Lato';
 }
 #homepage #intro input[type=text] {
   border: 0;
   font-size: 16pt;
   padding: 10px 10px;
   margin-right: 10px;
+  border-radius: 5px;
 }
 #homepage #intro input[type=submit] {
   background: #147eb9;
   border-radius: 5px;
   border: 0;
   color: #fff;
-  margin-top: -10px;
   font-size: 14pt;
-  padding: 10px 20px;
+  padding: 12px 20px;
 }
 #homepage #intro input[type=submit]:hover {
   background: #116c9e;
@@ -84,6 +263,9 @@ footer p:nth-child(1) {
   overflow: hidden;
   width: 100%;
   min-width: 1000px;
+}
+#room h1 {
+  color: #c7d2df;
 }
 #room #as {
   position: absolute;
@@ -104,7 +286,8 @@ footer p:nth-child(1) {
 #room #sidebar a.logo {
   font-size: 14px;
 }
-#room #sidebar h6 {
+#room #sidebar .onroom {
+  font-size: 0.9em;
   background: #425366;
   padding: 5px 0 5px 10px;
 }
