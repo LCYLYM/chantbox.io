@@ -1,7 +1,7 @@
 (function() {
   window.chantbox.controller('RoomController', [
     '$scope', 'Socket', 'Chatter', function($scope, socket, Chatter) {
-      var join, message;
+      var join, message, setUsersList;
       (function() {
         return document.getElementById("input").focus();
       })();
@@ -21,7 +21,7 @@
           type: 'system',
           content: 'Disconnected from server... trying to reconnect'
         });
-        return $scope.users = {};
+        return setUsersList({});
       });
       socket.on('reconnect', function() {
         message({
@@ -31,8 +31,7 @@
         return join(false);
       });
       socket.on('join', function(users) {
-        $scope.users = users;
-        return $scope.$apply();
+        return setUsersList(users);
       });
       socket.on('leave', function(as) {
         delete $scope.users[as];
@@ -58,11 +57,15 @@
         $scope.$apply();
         return Chatter.scrollToBottom();
       };
-      return join = function(notify) {
+      join = function(notify) {
         if (notify == null) {
           notify = true;
         }
         return socket.emit('join', $scope.room, $scope.as, notify);
+      };
+      return setUsersList = function(users) {
+        $scope.users = users;
+        return $scope.$apply();
       };
     }
   ]);
