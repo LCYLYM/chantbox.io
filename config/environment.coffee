@@ -5,6 +5,8 @@ module.exports = (compound) ->
   io        = require('socket.io').listen compound.server, {log: false}
   app       = compound.app
 
+  require('./mongoose').init(compound)
+
   app.configure ->
     app.enable 'coffee'
     app.set 'cssEngine', 'stylus'

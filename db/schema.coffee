@@ -1,7 +1,9 @@
-# Example of model definition:
-#
-#define 'User', ->
-#  property 'email', String, index: true
-#  property 'password', String
-#  property 'activated', Boolean, default: false
-#
+module.exports = (mongoose, compound) ->
+    # var schema = mongoose.Schema({ name: String });
+    # var Cat = mongoose.model('Cat', schema);
+
+    # // expose model name for view helpers (resource-based helpers like formFor)
+    # Cat.modelName = 'Cat';
+
+    # // register model in compound.models registry
+    # compound.models.Cat = Cat;
