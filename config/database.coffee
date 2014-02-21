@@ -1,12 +1,12 @@
 module.exports = 
   development:
-    driver: "mongodb"
+    driver: "mongoose"
     url: "mongodb://localhost/chantbox-development"
 
   test:
-    driver: "mongodb"
+    driver: "mongoose"
     url: "mongodb://localhost/chantbox-test"
 
   production:
-    driver: "mongodb"
+    driver: "mongoose"
     url: "mongodb://localhost/chantbox-production"
