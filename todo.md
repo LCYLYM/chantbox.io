@@ -1,16 +1,26 @@
 to do
 =====
 
-* elastic list
-* private messages
-* sounds
+* switch to mongoose
+* authenticate users with twitter
 * persistent data
-* persistent users
+
+* private messages
+* sounds (when blur)
+* unread badge
+
+* online indication
 * links preview
-* identify
+* room - advanced (no guests, invite only)
+* youtube videos
+* responsive
+* chrome notifications (when blur)
 
 done
 =====
 
 * user avatar
 * reconnections
+* events controller
+* elastic list (Chatter service)
+* scroll to bottom

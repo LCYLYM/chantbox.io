@@ -1,13 +1,12 @@
 module.exports = (compound) ->
 
-  crypto = require 'crypto'
-  express = require 'express'
-  app = compound.app
-  io = require('socket.io').listen compound.server, {log: false}
+  crypto    = require 'crypto'
+  express   = require 'express'
+  io        = require('socket.io').listen compound.server, {log: false}
+  app       = compound.app
 
   app.configure ->
     app.enable 'coffee'
-
     app.set 'cssEngine', 'stylus'
     compound.loadConfigs __dirname
 
