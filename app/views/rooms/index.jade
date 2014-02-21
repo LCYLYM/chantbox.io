@@ -1,26 +1,19 @@
-section#room(ng-controller='RoomController', ng-init='room="#{room}"; as="#{as}"')
-  if (as.indexOf('Guest') == -1)
-    #as Connected to this room as <em>#{as}</em> | 
-      a(ng-click="logout()") Logout
-  else
-    #as 
-      a(ng-click="login()") Indentify
-
+section#room(ng-controller='RoomController', ng-init='room="#{room}"')
   section#sidebar
     a.logo(href=pathTo.root()) chantbox.io
     h5.onroom Users on ##{room}
     ul.users
       li(ng-repeat="u in users")
-        img(ng-src="//www.gravatar.com/avatar/{{u.hash}}?s=50", width="50", height="50")
-        .name {{u.name}}
-        .joined joined {{u.joined | date: 'yyyy-MM-dd HH:mm'}}
+        img(ng-src="{{u.avatar}}", width="48", height="48", class="avatar normal")
+        .name {{u.screen_name}}
+        .joined Online
 
   section#chatter
     h1 ##{room}
 
     ul
       li(ng-repeat="m in messages", ng-class="m.type")
-        img(ng-src="//www.gravatar.com/avatar/{{m.user.hash}}?s=30", width="30", height="30", ng-show="m.type == 'user'").avatar
+        img(ng-src="{{m.user.avatar}}", width="24", height="24", ng-show="m.type == 'user'").avatar.small
         time {{m.time | date: 'yyyy-MM-dd HH:mm'}}
         span.content {{m.content}}
         

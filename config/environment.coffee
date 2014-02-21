@@ -6,6 +6,7 @@ module.exports = (compound) ->
   app       = compound.app
 
   require('./mongoose').init(compound)
+  twitter = require('./twitter')(compound)
 
   app.configure ->
     app.enable 'coffee'
@@ -18,14 +19,15 @@ module.exports = (compound) ->
     app.use express.urlencoded()
     app.use express.json()
     app.use express.cookieParser 'mnsjsu477383hfhbvgata5151ref'
-    # app.use express.session secret: 'secret'
+    # app.use express.session secret: 'mnsjsu477383hfhbvgata5151ref'
     app.use express.methodOverride()
+    app.use twitter.authenticate
+
     app.locals.title = 'chantbox.io'
-    # app.use (req, res, next) ->
-    #   res.cookie 'user_id', crypto.createHash('md5').update((+(new Date)).toString()).digest('hex')
-    #   next()
     app.locals.assets_timestamp = +(new Date)
     app.use app.router
 
   io.sockets.on 'connection', (socket) ->
-    require('../app/events/rooms')(io.sockets, socket)
+    twitter.authenticateSocket socket, (err, socket) ->
+      require('../app/events/rooms')(io.sockets, socket)
+

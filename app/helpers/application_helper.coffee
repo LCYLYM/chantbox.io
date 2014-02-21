@@ -7,3 +7,6 @@ module.exports = class ApplicationHelper
       string = ''
       string+= hashBank[Math.floor(length*(Math.random()))] for i in [0..len]
       return string
+
+  @avatar = (user, size=normal) ->
+    return "<img src='#{user.avatar}' class='avatar #{size}' />"
