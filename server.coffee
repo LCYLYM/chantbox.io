@@ -14,3 +14,6 @@ if not module.parent || module.parent.isApplicationLoader
     console.log(
       "Compound server listening on %s:%d within %s environment",
       host, port, server.set('env'))
+
+process.on 'uncaughtException', (err) ->
+  console.error 'uncaughtException', err
