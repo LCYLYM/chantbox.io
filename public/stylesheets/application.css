@@ -94,6 +94,9 @@ section {
 nav ul {
   list-style: none;
 }
+input:focus {
+  outline: none;
+}
 blockquote,
 q {
   quotes: none;
