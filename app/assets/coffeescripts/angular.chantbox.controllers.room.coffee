@@ -41,7 +41,7 @@ window.chantbox.controller 'RoomController', ['$scope', 'Socket', 'Chatter', ($s
     Chatter.scrollToBottom()
 
   join = (notify=true) ->
-    socket.emit 'join', $scope.room, $scope.as, notify
+    socket.emit 'join', $scope.room, notify
 
   setUsersList = (users) ->
     $scope.users = users

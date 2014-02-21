@@ -8,6 +8,8 @@ section#intro
       | chantbox.io/
       input(type="text", name="room", value=randomHash())
       input(type="submit", value="JOIN")
+    if (!user)
+      a.sign_in_twitter(href='/auth/twitter') Sign in with Twitter
 
 footer
   p created for funs by 

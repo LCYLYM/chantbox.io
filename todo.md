@@ -1,7 +1,6 @@
 to do
 =====
 
-* switch to mongoose
 * authenticate users with twitter
 * persistent data
 
@@ -24,3 +23,4 @@ done
 * events controller
 * elastic list (Chatter service)
 * scroll to bottom
+* switch to mongoose

@@ -61,7 +61,7 @@
         if (notify == null) {
           notify = true;
         }
-        return socket.emit('join', $scope.room, $scope.as, notify);
+        return socket.emit('join', $scope.room, notify);
       };
       return setUsersList = function(users) {
         $scope.users = users;

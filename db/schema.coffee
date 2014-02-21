@@ -1,9 +1,11 @@
 module.exports = (mongoose, compound) ->
-    # var schema = mongoose.Schema({ name: String });
-    # var Cat = mongoose.model('Cat', schema);
 
-    # // expose model name for view helpers (resource-based helpers like formFor)
-    # Cat.modelName = 'Cat';
+  User = mongoose.model 'User', mongoose.Schema {
+    screen_name: {type: String, index: {unique: true, sparse: true}}
+    avatar: String
+    createdAt: {type: Date, default: new Date}
+  }
+  User.modelName = 'User'
+  compound.models.User = User
 
-    # // register model in compound.models registry
-    # compound.models.Cat = Cat;
+

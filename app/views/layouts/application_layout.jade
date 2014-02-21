@@ -8,4 +8,9 @@ html
     != javascriptIncludeTag('angular.chantbox.app', 'angular.chantbox.services.socket', 'angular.chantbox.services.chatter', 'angular.chantbox.controllers.room')
 
   body(ng-app='chantbox', id=page)
+    #head_login
+      if (user)
+        a.sign_in_twitter(href='/auth/logout') !{avatar(user, 'small')} logout
+      if (!user)
+        a.sign_in_twitter(href='/auth/twitter') Login with Twitter
     != body
