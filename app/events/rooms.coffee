@@ -3,7 +3,7 @@ ROOMS = {}
 module.exports = (sockets, socket) -> 
 
   message = (type, content, user) ->
-    source = type + (if user? then ", #{user.screen_name}" else '')
+    source = type + (if user? then ", #{user.screen_name}" else '') + ", ##{socket.room}"
     console.log "Room.emit.message (#{source}): #{content}"
     sockets.in(socket.room).emit 'message', {content: content, type: type, user: user}    
 
