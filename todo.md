@@ -1,7 +1,8 @@
 to do
 =====
 
-* authenticate users with twitter
+* lint twitter hash tag on active room
+* persistent rooms
 * persistent data
 
 * private messages
@@ -24,3 +25,4 @@ done
 * elastic list (Chatter service)
 * scroll to bottom
 * switch to mongoose
+* authenticate users with twitter

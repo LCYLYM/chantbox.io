@@ -11,11 +11,10 @@ module.exports = (sockets, socket) ->
     socket.join room
     socket.room = room
     
-    if not ROOMS[room]?[socket.user.screen_name]? # don't double rejoin (different windows)  
-      ROOMS[room] = {} if not ROOMS[room]
-      ROOMS[room][socket.user.screen_name] = socket.user
-      sockets.in(room).emit 'join', ROOMS[socket.room]
-      message 'system', "#{socket.user.screen_name} joined ##{socket.room}" if notify 
+    ROOMS[room] = {} if not ROOMS[room]
+    ROOMS[room][socket.user.screen_name] = socket.user
+    sockets.in(room).emit 'join', ROOMS[socket.room]
+    message 'system', "#{socket.user.screen_name} joined ##{socket.room}" if notify 
 
   socket.on 'disconnect', ->
     return if not socket.room

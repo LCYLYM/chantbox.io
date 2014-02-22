@@ -17,7 +17,7 @@ section#room(ng-controller='RoomController', ng-init='room="#{room}"')
         time {{m.time | date: 'yyyy-MM-dd HH:mm'}}
         span.content {{m.content}}
   
-  #notification(ng-show="!!notification") {{notification}}
+  #notification(ng-class="{hidden: !notification}") {{notification}}
   input#input(ng-keyup="send($event)", placeholder="arigatou hey!")
 
 
