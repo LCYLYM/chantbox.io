@@ -10,7 +10,7 @@ module.exports = (compound) ->
     config: {
       consumerKey: 'oTGWRU2D0wriEUBduYBZHg'
       consumerSecret: 'cWRG1NKSGmdW6EizaCFMfaK5ImIxST4F09nRdWERst0'
-      callback: 'http://dev.chantbox.io:3000/auth/twitter'
+      callback: '/auth/twitter'
     }
     authenticate: (req, res, next) ->
       return next() if not req.cookies.i
@@ -24,10 +24,10 @@ module.exports = (compound) ->
           next()
 
     authenticateSocket: (socket, callback) ->
-
+      screen_name = 'Guest ' + Math.ceil(Math.random()*1000000 +50000)
       socket.user = {
-        screen_name: 'Guest ' + Math.ceil(Math.random()*1000000 +50000)
-        avatar: 'http://www.gravatar.com/avatar/' + crypto.createHash('md5').update((new Date).getTime().toString()).digest('hex') + '?d=monsterid&s=48'
+        screen_name: screen_name
+        avatar: 'http://www.gravatar.com/avatar/' + crypto.createHash('md5').update(screen_name).digest('hex') + '?d=monsterid&s=48'
       }
 
       return callback(null, socket) if not socket.handshake.headers.cookie

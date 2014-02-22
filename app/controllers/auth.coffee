@@ -1,13 +1,19 @@
-twitterAPI = require 'node-twitter-api'
-twitter = new twitterAPI(require('../../config/twitter')().config)
-
 module.exports = class Auth
+
+  getTwitterApi = do ->
+    twitterAPI = require 'node-twitter-api'
+    conf = require('../../config/twitter')().config
+    twitter = null
+    return (req) ->
+      conf.callback = 'http://' + req.headers.host + conf.callback
+      twitter or= new twitterAPI(conf)
 
   clearCookies = (c) ->
     c.res.cookie k, '', {expires: new Date(+(new Date)-1000000)} for k in Object.keys(c.req.cookies)
 
   twitter: (c) ->
     redirectTo = c.path_to.root()
+    twitter = getTwitterApi c.req
 
     if not c.req.query.oauth_token
       console.log 'twitter auth - get request token'
