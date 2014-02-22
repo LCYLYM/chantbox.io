@@ -7,12 +7,15 @@ module.exports = class Auth
     c.res.cookie k, '', {expires: new Date(+(new Date)-1000000)} for k in Object.keys(c.req.cookies)
 
   twitter: (c) ->
+    redirectTo = c.path_to.root()
+
     if not c.req.query.oauth_token
       console.log 'twitter auth - get request token'
       return twitter.getRequestToken (err, requestToken, requestTokenSecret, results) ->
         return c.send 500, err if err
         c.res.cookie 'requestToken', requestToken, {signed: true}
         c.res.cookie 'requestTokenSecret', requestTokenSecret, {signed: true}
+        c.res.cookie 'roomRef', c.req.query.room, {signed: true} if c.req.query.room
         c.redirect 'https://twitter.com/oauth/authenticate?oauth_token=' + requestToken
 
     else if c.req.query.oauth_token
@@ -30,10 +33,10 @@ module.exports = class Auth
               if not user.createdAt
                 user.createdAt = new Date 
                 user.save()
+              redirectTo = c.req.signedCookies.roomRef if c.req.signedCookies.roomRef
               clearCookies(c)
               c.res.cookie 'i', user._id.toString()
-              # todo: redirect to refering room
-              c.redirect '/?' + (new Date).getTime()
+              c.redirect redirectTo + '?' + (new Date).getTime()
 
   logout: (c) ->
     clearCookies(c)

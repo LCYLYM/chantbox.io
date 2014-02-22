@@ -16,7 +16,8 @@ section#room(ng-controller='RoomController', ng-init='room="#{room}"')
         img(ng-src="{{m.user.avatar}}", width="24", height="24", ng-show="m.type == 'user'").avatar.small
         time {{m.time | date: 'yyyy-MM-dd HH:mm'}}
         span.content {{m.content}}
-        
+  
+  #notification(ng-show="!!notification") {{notification}}
   input#input(ng-keyup="send($event)", placeholder="arigatou hey!")
 
 
