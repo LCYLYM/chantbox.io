@@ -10,18 +10,19 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', 'Socket', 'C
   
   socket.on 'connect', ->
     notify 'Connected', true
-    join()
 
   socket.on 'disconnect', ->
     notify 'Disconnected from server... trying to reconnect'
     setUsersList {} # empty users list when disconnected from room
 
   socket.on 'reconnect', ->
-    notify 'Reconnected'
-    join(false)
+    notify 'Reconnected', true
 
   socket.on 'join', (users) ->
     setUsersList users
+
+  socket.on 'ready', ->
+    join()
 
   socket.on 'leave', (as) ->
     delete $scope.users[as]

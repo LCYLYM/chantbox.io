@@ -32,7 +32,7 @@ module.exports = (compound) ->
 
       return callback(null, socket) if not socket.handshake.headers.cookie
 
-      do ->
+      do (socket) ->
         id = null
         socket.handshake.headers.cookie.split(';').forEach (cookie) ->
           id = cookie.split('=')[1].trim() if cookie.split('=')[0].trim() is 'i'
