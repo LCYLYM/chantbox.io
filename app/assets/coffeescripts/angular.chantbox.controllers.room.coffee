@@ -7,6 +7,7 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', 'Socket', 'C
   $scope.messages = []
   $scope.users = {}
   $scope.notification = ''
+  connected = false
   
   socket.on 'connect', ->
     notify 'Connected', true
@@ -14,6 +15,7 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', 'Socket', 'C
   socket.on 'disconnect', ->
     notify 'Disconnected from server... trying to reconnect'
     setUsersList {} # empty users list when disconnected from room
+    connected = false
 
   socket.on 'reconnect', ->
     notify 'Reconnected', true
@@ -22,6 +24,7 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', 'Socket', 'C
     setUsersList users
 
   socket.on 'ready', ->
+    connected = true
     join()
 
   socket.on 'leave', (as) ->
@@ -33,7 +36,7 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', 'Socket', 'C
     message data
 
   $scope.send = ($event) ->
-    return if $event.which isnt 13 or not $event.target.value.trim()
+    return if $event.which isnt 13 or not $event.target.value.trim() or not connected
     socket.emit 'message', $event.target.value
     $event.target.value = ''
 
