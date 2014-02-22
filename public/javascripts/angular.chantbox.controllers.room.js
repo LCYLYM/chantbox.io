@@ -1,33 +1,23 @@
 (function() {
   window.chantbox.controller('RoomController', [
-    '$scope', 'Socket', 'Chatter', function($scope, socket, Chatter) {
-      var join, message, setUsersList;
+    '$scope', '$timeout', 'Socket', 'Chatter', function($scope, $timeout, socket, Chatter) {
+      var join, message, notify, setUsersList;
       (function() {
         return document.getElementById("input").focus();
       })();
-      $scope.messages = [
-        {
-          time: new Date,
-          type: 'system',
-          content: "Connecting..."
-        }
-      ];
+      $scope.messages = [];
       $scope.users = {};
+      $scope.notification = '';
       socket.on('connect', function() {
+        notify('Connected', true);
         return join();
       });
       socket.on('disconnect', function() {
-        message({
-          type: 'system',
-          content: 'Disconnected from server... trying to reconnect'
-        });
+        notify('Disconnected from server... trying to reconnect');
         return setUsersList({});
       });
       socket.on('reconnect', function() {
-        message({
-          type: 'system',
-          content: 'Reconnected'
-        });
+        notify('Reconnected');
         return join(false);
       });
       socket.on('join', function(users) {
@@ -38,6 +28,9 @@
         return $scope.$apply();
       });
       socket.on('message', function(data) {
+        if (data.type === 'system') {
+          return notify(data.content, true);
+        }
         return message(data);
       });
       $scope.send = function($event) {
@@ -57,16 +50,35 @@
         $scope.$apply();
         return Chatter.scrollToBottom();
       };
+      notify = function(m, fadeOut) {
+        var clear;
+        clear = function() {
+          return $scope.notification = null;
+        };
+        if (m) {
+          $scope.notification = m;
+        } else {
+          if (!m) {
+            $timeout(clear, 1000);
+          }
+        }
+        if (fadeOut) {
+          return $timeout(clear, 2000);
+        }
+      };
       join = function(notify) {
         if (notify == null) {
           notify = true;
         }
         return socket.emit('join', $scope.room, notify);
       };
-      return setUsersList = function(users) {
+      setUsersList = function(users) {
         $scope.users = users;
         return $scope.$apply();
       };
+      return (function() {
+        return notify("Connecting to #" + $scope.room + "...");
+      })();
     }
   ]);
 

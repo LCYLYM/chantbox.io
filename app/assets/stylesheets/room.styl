@@ -79,10 +79,21 @@
     h2
       color #ccc
 
+  #notification
+    background #FFBD44
+    border 1px solid darken(#FFBD44, 10%)
+    padding 5px 10px
+    position absolute
+    top 10px
+    left 33%
+    width 33%
+    text-align center
+    opacity 1
+    transition all 1000ms linear
+    &.hidden
+      top -40px
 
   #input
-    :focus
-      bo
     position absolute
     bottom 0
     left 300px

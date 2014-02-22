@@ -1,21 +1,23 @@
-window.chantbox.controller 'RoomController', ['$scope', 'Socket', 'Chatter', ($scope, socket, Chatter) ->
+window.chantbox.controller 'RoomController', ['$scope', '$timeout', 'Socket', 'Chatter', ($scope, $timeout, socket, Chatter) ->
 
   do ->
     # focus on input on load
     document.getElementById("input").focus()
 
-  $scope.messages = [{time: new Date, type: 'system', content: "Connecting..."}]
+  $scope.messages = []
   $scope.users = {}
+  $scope.notification = ''
   
   socket.on 'connect', ->
+    notify 'Connected', true
     join()
 
   socket.on 'disconnect', ->
-    message {type: 'system', content: 'Disconnected from server... trying to reconnect'} 
+    notify 'Disconnected from server... trying to reconnect'
     setUsersList {} # empty users list when disconnected from room
 
   socket.on 'reconnect', ->
-    message {type: 'system', content: 'Reconnected'}
+    notify 'Reconnected'
     join(false)
 
   socket.on 'join', (users) ->
@@ -26,6 +28,7 @@ window.chantbox.controller 'RoomController', ['$scope', 'Socket', 'Chatter', ($s
     $scope.$apply()
 
   socket.on 'message', (data) ->
+    return notify(data.content, true) if data.type is 'system'
     message data
 
   $scope.send = ($event) ->
@@ -36,9 +39,18 @@ window.chantbox.controller 'RoomController', ['$scope', 'Socket', 'Chatter', ($s
   message = (data) ->
     $scope.messages.push {time: new Date, type: data.type, content: data.content, user: data.user}
     $scope.$apply()
-
     # scroll to bottom of chatter when a message is received
     Chatter.scrollToBottom()
+
+  notify = (m, fadeOut) ->
+    clear = -> $scope.notification = null
+    if m
+      $scope.notification = m
+    else
+      $timeout clear, 1000 if not m
+
+    if fadeOut
+      $timeout clear, 2000
 
   join = (notify=true) ->
     socket.emit 'join', $scope.room, notify
@@ -46,6 +58,10 @@ window.chantbox.controller 'RoomController', ['$scope', 'Socket', 'Chatter', ($s
   setUsersList = (users) ->
     $scope.users = users
     $scope.$apply()
+
+  #init 
+  do ->
+    notify "Connecting to ##{$scope.room}..."
 
 
 ]

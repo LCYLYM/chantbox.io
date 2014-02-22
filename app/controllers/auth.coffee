@@ -39,6 +39,7 @@ module.exports = class Auth
               c.redirect redirectTo + '?' + (new Date).getTime()
 
   logout: (c) ->
+    console.log "#{c.req.user.screen_name} logout"
     clearCookies(c)
     c.redirect c.path_to.root()
 
