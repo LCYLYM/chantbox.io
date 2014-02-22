@@ -8,4 +8,24 @@ module.exports = (mongoose, compound) ->
   User.modelName = 'User'
   compound.models.User = User
 
+  Room = mongoose.model 'Room', mongoose.Schema {
+    name: {type: String, index: {unique: true}}
+    creator: {type: mongoose.Schema.ObjectId, ref: 'User'}
+    settings: {type: {}}
+    # moderators
+    createdAt: {type: Date, default: new Date}
+  }
+  Room.modelName = 'Room'
+  compound.models.Room = Room
+
+  Line = mongoose.model 'Line', mongoose.Schema {
+    type: {type: String}
+    user: {type: mongoose.Schema.ObjectId, ref: 'User'}
+    content: {type: String}
+    data: {type: {}}
+    createdAt: {type: Date, default: new Date, index: true}
+  }
+  Line.modelName = 'Line'
+  compound.models.Line = Line
+
 
