@@ -12,5 +12,6 @@ html
       if (user)
         a.sign_in_twitter(href='/auth/logout') !{avatar(user, 'small')} logout
       if (!user)
-        a.sign_in_twitter(href='/auth/twitter') Login with Twitter
+        - var twitter = '/auth/twitter' + (room ? '?room='+room : '')
+        a.sign_in_twitter(href=twitter) Login with Twitter
     != body
