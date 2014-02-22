@@ -29,5 +29,5 @@ module.exports = (compound) ->
 
   io.sockets.on 'connection', (socket) ->
     twitter.authenticateSocket socket, (err, socket) ->
-      require('../app/events/rooms')(io.sockets, socket)
+      require('../app/events/rooms')(io.sockets, socket) 
 

@@ -9,19 +9,20 @@
       $scope.users = {};
       $scope.notification = '';
       socket.on('connect', function() {
-        notify('Connected', true);
-        return join();
+        return notify('Connected', true);
       });
       socket.on('disconnect', function() {
         notify('Disconnected from server... trying to reconnect');
         return setUsersList({});
       });
       socket.on('reconnect', function() {
-        notify('Reconnected');
-        return join(false);
+        return notify('Reconnected', true);
       });
       socket.on('join', function(users) {
         return setUsersList(users);
+      });
+      socket.on('ready', function() {
+        return join();
       });
       socket.on('leave', function(as) {
         delete $scope.users[as];
