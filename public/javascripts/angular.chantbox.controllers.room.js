@@ -1,7 +1,9 @@
 (function() {
   window.chantbox.controller('RoomController', [
-    '$scope', '$timeout', 'Socket', 'Chatter', function($scope, $timeout, socket, Chatter) {
-      var connected, join, message, notify, setUsersList;
+    '$scope', '$timeout', '$window', 'Socket', 'Chatter', function($scope, $timeout, $window, socket, Chatter) {
+      var audio, chime, connected, focus, join, message, notify, setUsersList, title, unread, updateUnreadCounter;
+      audio = document.createElement('audio');
+      chime = !!(audio.canPlayType && audio.canPlayType('audio/mpeg;').replace(/no/, '')) ? new Audio('/sounds/chime.wav') : false;
       (function() {
         return document.getElementById("input").focus();
       })();
@@ -9,6 +11,16 @@
       $scope.users = {};
       $scope.notification = '';
       connected = false;
+      focus = true;
+      unread = 0;
+      title = document.title;
+      angular.element($window).on('blur', function() {
+        return focus = false;
+      });
+      angular.element($window).on('focus', function() {
+        focus = true;
+        return updateUnreadCounter(0);
+      });
       socket.on('connect', function() {
         return notify('Connected', true);
       });
@@ -31,6 +43,12 @@
         return setUsersList(users);
       });
       socket.on('message', function(data) {
+        if (!focus) {
+          updateUnreadCounter(++unread);
+          if (chime && data.type !== 'system') {
+            chime.play();
+          }
+        }
         return message(data);
       });
       $scope.send = function($event) {
@@ -72,6 +90,10 @@
       setUsersList = function(users) {
         $scope.users = users;
         return $scope.$apply();
+      };
+      updateUnreadCounter = function(c) {
+        unread = c;
+        return document.title = (unread ? "(" + unread + ") " : '') + title;
       };
       return (function() {
         return notify("Connecting to #" + $scope.room + "...");
