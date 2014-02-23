@@ -88,7 +88,7 @@
         }
       };
       join = function() {
-        return socket.emit('join', $scope.room, location.href.indexOf("fixed=1") > -1);
+        return socket.emit('join', $scope.room, location.href.indexOf("fixed=1") > -1, $scope.messages.length === 0);
       };
       setUsersList = function(users) {
         $scope.users = users;

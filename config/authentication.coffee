@@ -35,7 +35,6 @@ module.exports = (compound) ->
       for cookie in socket.handshake.headers.cookie.split(';')
         id = cookie.split('=')[1].trim() if cookie.split('=')[0].trim() is 'i'
         guest_name = decodeURI(cookie.split('=')[1].trim()) if cookie.split('=')[0].trim() is 'n'
-        console.log id, guest_name
 
       if id?
         return getUser id, (err, user) ->
