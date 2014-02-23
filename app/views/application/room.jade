@@ -11,7 +11,7 @@ section#room(ng-controller='RoomController', ng-init='room="#{room.name}"')
       div(class="room_type room_type_fixed")
         p Fixed room, conversations are ON record.
         p You can visit it again by using the same URL
-        p Created by @#{room.creator.screen_name}
+        p Room created by @#{room.creator.screen_name}
     else
       div(class="room_type room_type_anonymous") 
         p Temporary room, conversations are off record
