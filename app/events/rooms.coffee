@@ -19,13 +19,13 @@ module.exports = (sockets, socket, Room) ->
       socket.join room.name, ->
         socket.room = room
         sockets.in(room.name).emit 'join', users(room.name)
-        socket.emit 'room', room, socket.user, ->
-          if getHistory
-            room.getLines 10, 0, (err, lines) =>
-              message l.type, l.content, l.user, false for l in lines
-              message 'system', "#{socket.user.screen_name} joined ##{socket.room.name}"
-          else
+        socket.emit 'room', room, socket.user
+        if getHistory
+          room.getLines 10, 0, (err, lines) =>
+            message l.type, l.content, l.user, false for l in lines
             message 'system', "#{socket.user.screen_name} joined ##{socket.room.name}"
+        else
+          message 'system', "#{socket.user.screen_name} joined ##{socket.room.name}"
 
   socket.on 'disconnect', ->
     return if not socket.room.name
