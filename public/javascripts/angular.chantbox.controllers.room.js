@@ -32,9 +32,6 @@
         return $scope.$apply();
       });
       socket.on('message', function(data) {
-        if (data.type === 'system') {
-          return notify(data.content, true);
-        }
         return message(data);
       });
       $scope.send = function($event) {
@@ -70,11 +67,8 @@
           return $timeout(clear, 2000);
         }
       };
-      join = function(notify) {
-        if (notify == null) {
-          notify = true;
-        }
-        return socket.emit('join', $scope.room, notify);
+      join = function() {
+        return socket.emit('join', $scope.room, location.href.indexOf("fixed=1") > -1);
       };
       setUsersList = function(users) {
         $scope.users = users;

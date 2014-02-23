@@ -14,7 +14,7 @@ module.exports = (mongoose, compound) ->
     settings: {type: {
       fixed: Boolean
     }}
-    users: [{type: String}]
+    users: {type: {}}
     moderators: [{}]
     createdAt: {type: Date}
   }
