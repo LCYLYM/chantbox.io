@@ -365,6 +365,16 @@ footer p:nth-child(1) {
 #room #sidebar .room_type.room_type_fixed {
   background: #53b653;
 }
+#room #sidebar .room_type a {
+  color: #fff;
+}
+#room #sidebar .room_type input {
+  width: 80%;
+  border: 0;
+  margin-top: 5px;
+  padding: 5px;
+  border-radius: 3px;
+}
 #room #chatter {
   position: absolute;
   left: 310px;

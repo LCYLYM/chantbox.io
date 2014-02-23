@@ -2,43 +2,43 @@ module.exports = (sockets, socket, Room) ->
 
   users = (room) ->
     list = {}
-    sockets.clients(room).map (client) -> list[client.user.screen_name] = client.user
+    sockets.clients(room).map (client) -> list[client.user.screen_name] = client.user  
     return list
 
   message = (type, content, user, log=true) ->
     data = {content: content, type: type, user: user}
-    source = type + (if user? then ", #{user.screen_name}" else '') + ", ##{socket.room}" 
+    source = type + (if user? then ", #{user.screen_name}" else '') + ", ##{socket.room.name}" 
     console.log "Room.emit.message (#{source}): #{content}"
-    sockets.in(socket.room).emit 'message', data
-    socket._room?.addLine data if log # if room.settings.fixed
+    sockets.in(socket.room.name).emit 'message', data
+    socket.room?.addLine data if log # if room.settings.fixed
 
   socket.on 'join', (room, fixed, getHistory) ->
     console.log "Room.on.join: #{socket.user.screen_name} joins #{room}" 
-    socket.join room, ->
-      socket.room = room
-      sockets.in(room).emit 'join', users(room)
-      Room.get socket.room, (err, room) ->
-        socket._room = room
-        if getHistory
-          socket._room.getLines 10, 0, (err, lines) =>
-            message l.type, l.content, l.user, false for l in lines
-            message 'system', "#{socket.user.screen_name} joined ##{socket.room}"
-        else
-          message 'system', "#{socket.user.screen_name} joined ##{socket.room}"
+    Room.getOrCreate room, {fixed: fixed}, (if socket.user._id then socket.user else null), (err, room) ->
+      message 'system', err if err
+      socket.join room.name, ->
+        socket.room = room
+        sockets.in(room.name).emit 'join', users(room.name)
+        socket.emit 'room', room, socket.user, ->
+          if getHistory
+            room.getLines 10, 0, (err, lines) =>
+              message l.type, l.content, l.user, false for l in lines
+              message 'system', "#{socket.user.screen_name} joined ##{socket.room.name}"
+          else
+            message 'system', "#{socket.user.screen_name} joined ##{socket.room.name}"
 
   socket.on 'disconnect', ->
-    return if not socket.room
-    console.log "Room.on.disconnect: #{socket.user.screen_name} leaves #{socket.room}"
-    socket.leave socket.room, ->
-      sockets.in(socket.room).emit 'leave', users(socket.room)
-      message 'system', "#{socket.user.screen_name} left #{socket.room}"
-      # if Object.keys(users(socket.room)).length == 0
-      # Room.get socket.room, (err, room) -> room.kill() if room
+    return if not socket.room.name
+    console.log "Room.on.disconnect: #{socket.user.screen_name} leaves #{socket.room.name}"
+    socket.leave socket.room.name, ->
+      sockets.in(socket.room.name).emit 'leave', users(socket.room.name)
+      message 'system', "#{socket.user.screen_name} left #{socket.room.name}"
+      socket.room.kill() if Object.keys(users(socket.room.name)).length == 0
 
   socket.on 'message', (content) ->
     message 'user', content, socket.user
 
   # init
   do (socket) ->
-    socket.emit 'ready', socket.user
+    socket.emit 'ready'
  
