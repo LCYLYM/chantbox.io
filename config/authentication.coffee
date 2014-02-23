@@ -13,7 +13,15 @@ module.exports = (compound) ->
       callback: '/auth/twitter'
     }
     authenticate: (req, res, next) ->
-      return next() if not req.cookies.i
+      # set fixed guest name
+      if not req.cookies.n 
+        res.cookie 'n', 'Guest ' + Math.ceil(Math.random()*1000000 +50000) 
+
+      # return if not authenticated
+      if not req.cookies.i
+        return next() 
+
+      # authenticate
       getUser req.cookies.i, (err, user) ->
         if err 
           console.error 'authentication error', err
@@ -24,19 +32,23 @@ module.exports = (compound) ->
           next()
 
     authenticateSocket: (socket, callback) ->
-      screen_name = 'Guest ' + Math.ceil(Math.random()*1000000 +50000)
-      socket.user = {
-        screen_name: screen_name
-        avatar: 'http://www.gravatar.com/avatar/' + crypto.createHash('md5').update(screen_name).digest('hex') + '?d=monsterid&s=48'
-      }
+      for cookie in socket.handshake.headers.cookie.split(';')
+        id = cookie.split('=')[1].trim() if cookie.split('=')[0].trim() is 'i'
+        guest_name = decodeURI(cookie.split('=')[1].trim()) if cookie.split('=')[0].trim() is 'n'
+        console.log id, guest_name
 
-      return callback(null, socket) if not socket.handshake.headers.cookie
-
-      do (socket) ->
-        id = null
-        socket.handshake.headers.cookie.split(';').forEach (cookie) ->
-          id = cookie.split('=')[1].trim() if cookie.split('=')[0].trim() is 'i'
-        getUser id, (err, user) ->
+      if id?
+        return getUser id, (err, user) ->
           socket.user = user if user
           callback err, socket
+
+      else
+        socket.user = {
+          screen_name: guest_name || 'Gusta'
+          avatar: 'http://www.gravatar.com/avatar/' + crypto.createHash('md5').update(guest_name).digest('hex') + '?d=monsterid&s=48'
+        }
+        callback null, socket
+
+        
+        
   }
