@@ -1,19 +1,21 @@
 (function() {
   window.chantbox.controller('RoomController', [
     '$scope', '$timeout', 'Socket', 'Chatter', function($scope, $timeout, socket, Chatter) {
-      var join, message, notify, setUsersList;
+      var connected, join, message, notify, setUsersList;
       (function() {
         return document.getElementById("input").focus();
       })();
       $scope.messages = [];
       $scope.users = {};
       $scope.notification = '';
+      connected = false;
       socket.on('connect', function() {
         return notify('Connected', true);
       });
       socket.on('disconnect', function() {
         notify('Disconnected from server... trying to reconnect');
-        return setUsersList({});
+        setUsersList({});
+        return connected = false;
       });
       socket.on('reconnect', function() {
         return notify('Reconnected', true);
@@ -22,6 +24,7 @@
         return setUsersList(users);
       });
       socket.on('ready', function() {
+        connected = true;
         return join();
       });
       socket.on('leave', function(as) {
@@ -35,7 +38,7 @@
         return message(data);
       });
       $scope.send = function($event) {
-        if ($event.which !== 13 || !$event.target.value.trim()) {
+        if ($event.which !== 13 || !$event.target.value.trim() || !connected) {
           return;
         }
         socket.emit('message', $event.target.value);
