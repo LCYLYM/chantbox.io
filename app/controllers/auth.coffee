@@ -5,7 +5,7 @@ module.exports = class Auth
     twitter = null
     conf = null
     return (req, rootDir) ->
-      conf or= require(rootDir + '/config/twitter')().config
+      conf or= require(rootDir + '/config/authentication')().config
       conf.callback = 'http://' + req.headers.host + conf.callback
       twitter or= new twitterAPI(conf)
 
