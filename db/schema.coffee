@@ -10,10 +10,12 @@ module.exports = (mongoose, compound) ->
 
   Room = mongoose.model 'Room', mongoose.Schema {
     name: {type: String, index: {unique: true}}
-    creator: {type: mongoose.Schema.ObjectId, ref: 'User'}
-    settings: {type: {}}
-    # moderators
-    createdAt: {type: Date, default: new Date}
+    creator: {type: String}
+    settings: {type: {
+      anonymous: Boolean
+    }}
+    moderators: [{}]
+    createdAt: {type: Date}
   }
   Room.modelName = 'Room'
   compound.models.Room = Room
@@ -27,5 +29,4 @@ module.exports = (mongoose, compound) ->
   }
   Line.modelName = 'Line'
   compound.models.Line = Line
-
 
