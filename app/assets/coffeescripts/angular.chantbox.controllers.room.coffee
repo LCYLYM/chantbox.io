@@ -32,7 +32,7 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', 'Socket', 'C
     $scope.$apply()
 
   socket.on 'message', (data) ->
-    return notify(data.content, true) if data.type is 'system'
+    # return notify(data.content, true) if data.type is 'system'
     message data
 
   $scope.send = ($event) ->
@@ -56,8 +56,8 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', 'Socket', 'C
     if fadeOut
       $timeout clear, 2000
 
-  join = (notify=true) ->
-    socket.emit 'join', $scope.room, notify
+  join = ->
+    socket.emit 'join', $scope.room, (location.href.indexOf("fixed=1") > -1)
 
   setUsersList = (users) ->
     $scope.users = users
@@ -66,6 +66,5 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', 'Socket', 'C
   #init 
   do ->
     notify "Connecting to ##{$scope.room}..."
-
 
 ]
