@@ -6,5 +6,5 @@ module.exports = (compound) ->
     # app.enable 'quiet'
     app.enable 'merge javascripts'
     app.enable 'merge stylesheets'
-    app.enable 'assets timestamps'
+    app.disable 'assets timestamps'
     app.use express.errorHandler()
