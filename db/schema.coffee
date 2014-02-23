@@ -14,12 +14,11 @@ module.exports = (mongoose, compound) ->
     settings: {type: {
       fixed: Boolean
     }}
-    users: {type: {}}
     moderators: [{}]
     createdAt: {type: Date}
   }
   Room.modelName = 'Room'
-  compound.models.Room = Room
+  compound.models.Room = Room 
 
   Line = mongoose.model 'Line', mongoose.Schema {
     type: {type: String}

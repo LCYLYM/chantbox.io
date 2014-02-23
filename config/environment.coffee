@@ -24,13 +24,10 @@ module.exports = (compound) ->
     app.use authentication.authenticate
 
     app.locals.title = 'chantbox.io'
-    app.locals.assets_timestamp = +(new Date)
     app.use app.router
 
-  # reset all users list on reset
-  compound.models.Room.collection.update {}, {$set: {users: {}}}, {multi: true}, (err, affected) -> 
-    # assign socket.io room events
-    io.sockets.on 'connection', (socket) ->
-      authentication.authenticateSocket socket, (err, socket) ->
-        require('../app/events/rooms')(io.sockets, socket, compound.models.Room) 
+  # assign socket.io room events
+  io.sockets.on 'connection', (socket) ->
+    authentication.authenticateSocket socket, (err, socket) ->
+      require('../app/events/rooms')(io.sockets, socket, compound.models.Room) 
 

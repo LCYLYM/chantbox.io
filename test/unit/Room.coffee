@@ -2,7 +2,7 @@ describe 'Model: Room', ->
 
   Room = null
   User = null
-  
+
   before ->
     Room = compound.models.Room
     User = compound.models.User
@@ -47,61 +47,11 @@ describe 'Model: Room', ->
       created.should.equal true
       done()
 
-  it 'should add a user to a room', (done) ->
-    Room.getOrCreate 'temp1', {}, null, (err, room, created) ->
-      created.should.equal false
-      expect(err).to.equal null
-      room.name.should.equal 'temp1'
-      room.addUser {screen_name: 'name1'}, (err, users) ->
-        expect(err).to.equal null
-        users['name1'].screen_name.should.equal 'name1'
-        Room.getOrCreate 'temp1', {}, null, (err, room) ->
-          expect(err).to.equal null
-          room.users['name1'].screen_name.should.equal 'name1'
-          done()
-
-  it 'should add a second user to a room', (done) ->
-    Room.getOrCreate 'temp1', {}, null, (err, room, created) ->
-      room.addUser {screen_name: 'name2'}, (err, users) ->
-        Room.getOrCreate 'temp1', {}, null, (err, room) ->
-          room.users['name2'].screen_name.should.equal 'name2'
-          done()
-
-  it 'should remove a user from a room', (done) ->
-    Room.getOrCreate 'temp1', {}, null, (err, room, created) ->
-      created.should.equal false
-      room.users['name1'].should.not.equal undefined
-      room.removeUser {screen_name: 'name1'}, (err, users) ->
-        expect(users['name1']).to.equal undefined
-        Room.getOrCreate 'temp1', {}, null, (err, room) ->
-          expect(room.users['name1']).to.equal undefined
-          done()
-
-  it 'should not destory a temp room with users', (done) ->
-    Room.getOrCreate 'temp1', {}, null, (err, room, created) ->
-      room.kill (err) ->
-        expect(err).to.equal 'cannot remove a room with users'
-        Room.findOne room._id, (err, room) ->
-          expect(room).not.to.equal null
-          done() 
-
   it 'should not destory a fixed room', (done) ->
     Room.getOrCreate 'fixed', {fixed: true}, new User({name: 'some_user'}), (err, room, created) ->
       room.kill (err) ->
         expect(err).to.equal 'cannot remove a fixed room'
         done() 
-
-  it 'should destory a temp room with no users', (done) -> 
-    Room.getOrCreate 'temp1', {}, null, (err, room, created) ->
-      room.removeUser {screen_name: 'name1'}, (err) ->
-        room.kill (err) ->
-          err.should.equal 'cannot remove a room with users'
-          room.removeUser {screen_name: 'name2'}, (err) ->
-            room.kill (err) ->
-              expect(err).to.equal null
-              Room.findOne room._id, (err, room) ->
-                expect(room).to.equal null
-                done() 
 
   it 'should get a room by its name', (done) ->
     Room.get 'temp3', (err, room) ->

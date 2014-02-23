@@ -27,9 +27,8 @@
         connected = true;
         return join();
       });
-      socket.on('leave', function(as) {
-        delete $scope.users[as];
-        return $scope.$apply();
+      socket.on('leave', function(users) {
+        return setUsersList(users);
       });
       socket.on('message', function(data) {
         return message(data);

@@ -2,9 +2,10 @@ module.exports = class Auth
 
   getTwitterApi = do ->
     twitterAPI = require 'node-twitter-api'
-    conf = require('../../config/twitter')().config
     twitter = null
-    return (req) ->
+    conf = null
+    return (req, rootDir) ->
+      conf or= require(rootDir + '/config/twitter')().config
       conf.callback = 'http://' + req.headers.host + conf.callback
       twitter or= new twitterAPI(conf)
 
@@ -13,7 +14,7 @@ module.exports = class Auth
 
   twitter: (c) ->
     redirectTo = c.path_to.root()
-    twitter = getTwitterApi c.req
+    twitter = getTwitterApi c.req, c.compound.root
 
     if c.req.query.denied
       redirectTo = c.req.signedCookies.roomRef if c.req.signedCookies.roomRef
