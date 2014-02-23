@@ -15,6 +15,11 @@ module.exports = class Auth
     redirectTo = c.path_to.root()
     twitter = getTwitterApi c.req
 
+    if c.req.query.denied
+      redirectTo = c.req.signedCookies.roomRef if c.req.signedCookies.roomRef
+      clearCookies(c)
+      return c.redirect redirectTo + '?' + (new Date).getTime()
+
     if not c.req.query.oauth_token
       console.log 'twitter auth - get request token'
       return twitter.getRequestToken (err, requestToken, requestTokenSecret, results) ->
@@ -35,7 +40,7 @@ module.exports = class Auth
           return c.send 500, err if err
           console.log 'twitter auth - verified user', data.screen_name
           c.compound.models.User.update {screen_name: data.screen_name}, {$set: {avatar: data.profile_image_url_https}}, {upsert: true}, (err, affected, meta) ->
-            c.compound.models.User.findOne {screen_name: data.screen_name}, (err, user) ->
+            c.compound.models.User.findOne {screen_name: "@"+data.screen_name}, (err, user) ->
               if not user.createdAt
                 user.createdAt = new Date 
                 user.save()

@@ -1,10 +1,17 @@
+#head_login
+  if (user)
+    a.sign_in_twitter(href='/auth/logout') !{avatar(user, 'small')} logout
+  if (!user)
+    - var twitter = '/auth/twitter' + (room ? '?room='+room : '')
+    a.sign_in_twitter(href=twitter) Login with Twitter
+
 #head
   a.logo(href=pathTo.root()) chantbox.io
 
 section#intro
   .container
     h1 effortlessly chat & chant with friends and colleagues
-    form(onsubmit="location.href='/'+this.room.value; return false")
+    form(onsubmit="location.href='/r/'+this.room.value; return false")
       | chantbox.io/
       input(type="text", name="room", value=randomHash())
       input(type="submit", value="JOIN")

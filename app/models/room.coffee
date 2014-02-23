@@ -1,12 +1,34 @@
 module.exports = (compound, Room) ->
   
   Room.getOrCreate = (name, params, user, callback) ->
-    create = params.create
-    Room.findOne {name: name}, (err, room) ->
-      return callback(null, new Room({name: name, settings: {anonymous: true}})) if not room and not create
-      return callback('anonymous users cannot create persistent rooms', null) if create and not room and not user._id
-      if create and not room and user._id
-        return Room.create {name: name, settings: {anonymous: false}, creator: user._id, createdAt: new Date}, (err, room) ->
+    fixed = params.fixed
+    Room.findOne({name: name}).populate('creator').exec (err, room) -> 
+      # return an existing room
+      return callback err, room, false if (err or room)
+
+      # create a new room
+      if not room
+        return callback('anonymous users cannot create persistent rooms', null) if fixed and not user
+        settings = {fixed: false} if not fixed 
+        settings = {fixed: true} if fixed and user
+        Room.create {name: name, settings: settings, creator: user?._id, createdAt: new Date}, (err, room) ->
           callback err, room, true
-      callback err, room
-      # if not room 
+      
+  Room.prototype.addUser = (screen_name, callback) ->
+    console.log "Room.prototype.addUser, #{@name}, #{screen_name}"
+    if screen_name not in @users
+      @users.push screen_name 
+      @save (err) =>
+        callback err, @users if callback
+    else
+      callback null, @users if callback
+
+  Room.prototype.removeUser = (screen_name, callback) ->
+    console.log "Room.prototype.removeUser, #{@name}, #{screen_name}"
+    index = @users.indexOf screen_name
+    if index > -1
+      @users.splice index, 1 
+      @save (err) => 
+        callback err, @users if callback
+    else
+      callback null, @users if callback
