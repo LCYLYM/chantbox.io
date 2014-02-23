@@ -27,9 +27,8 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', 'Socket', 'C
     connected = true
     join()
 
-  socket.on 'leave', (as) ->
-    delete $scope.users[as]
-    $scope.$apply()
+  socket.on 'leave', (users) ->
+    setUsersList users
 
   socket.on 'message', (data) ->
     # return notify(data.content, true) if data.type is 'system'

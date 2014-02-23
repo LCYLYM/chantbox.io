@@ -17,26 +17,7 @@ module.exports = (compound, Room) ->
   Room.get = (name, callback) ->
     Room.findOne {name: name}, callback
       
-  Room.prototype.addUser = (user, callback) ->
-    console.log "Room.prototype.addUser, #{@name}, #{user.screen_name}"
-    @users = {} if not @users
-    @users[user.screen_name] = user
-    @markModified 'users'
-    @save (err) =>
-      callback err, @users if callback
-
-  Room.prototype.removeUser = (user, callback) ->
-    console.log "Room.prototype.removeUser, #{@name}, #{user.screen_name}"
-    if @users?[user.screen_name]
-      delete @users[user.screen_name]
-      @markModified 'users'
-      @save (err) => 
-        callback err, @users if callback
-    else
-      callback null, @users if callback
-
   Room.prototype.kill = (callback=->) ->
-    return callback 'cannot remove a room with users' if Object.keys(@users||{}).length > 0
     return callback 'cannot remove a fixed room' if @settings.fixed
     @remove (err) =>
       console.log "Room.prototype.kill #{@name}"
