@@ -32,4 +32,4 @@ module.exports = (compound, Room) ->
 
   Room.prototype.getLines = (limit, skip, callback) ->
     Line.find {room: @id, type: {$ne: 'system'}}, null, {limit: limit, skip: skip, sort: '-createdAt'}, (err, lines) ->
-      callback err, lines.reverse()
+      callback err, lines
