@@ -24,11 +24,9 @@
     "sinon": "*",
     "supertest": ">= 0",
     "mocha": ">= 0",
-    "should": ">= 0",
+    "should": "~3.1.2",
     "semicov": "*",
-    "co-generators": "*"
-  },
-  "scripts": {
-    "test": "./node_modules/.bin/mocha --require test/init.js test/*/*.test.js"
+    "co-generators": "*",
+    "expect.js": "~0.3.1"
   }
 }
