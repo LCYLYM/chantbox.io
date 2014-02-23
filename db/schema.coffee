@@ -10,10 +10,11 @@ module.exports = (mongoose, compound) ->
 
   Room = mongoose.model 'Room', mongoose.Schema {
     name: {type: String, index: {unique: true}}
-    creator: {type: String}
+    creator: {type: mongoose.Schema.ObjectId, ref: 'User'}
     settings: {type: {
-      anonymous: Boolean
+      fixed: Boolean
     }}
+    users: [{type: String}]
     moderators: [{}]
     createdAt: {type: Date}
   }

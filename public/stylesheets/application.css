@@ -201,10 +201,9 @@ a.logo {
 a.sign_in_twitter {
   display: inline-block;
   padding: 5px 10px;
-  background: #a5c6d6;
+  background: #3596ff;
   color: #fff;
   border-radius: 3px;
-  box-shadow: 0 0 1px #333;
   text-decoration: none;
 }
 img.avatar {
@@ -221,11 +220,21 @@ img.avatar.small {
   height: 24px;
   border-radius: 15px;
 }
-#head_login a {
+#head_login {
   z-index: 1;
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 10px;
+  right: 10px;
+}
+#head_login a {
+  text-decoration: none;
+  display: inline-block;
+  margin-left: 10px;
+  padding-left: 10px;
+  border-left: 1px solid #e5e5e5;
+}
+#head_login a:nth-child(1) {
+  border: 0;
 }
 footer {
   text-align: center;
@@ -233,7 +242,7 @@ footer {
   padding: 10px;
 }
 footer a {
-  color: #2a3541;
+  color: #2f142d;
   text-decoration: none;
 }
 footer p {
@@ -251,14 +260,15 @@ footer p:nth-child(1) {
   padding-bottom: 1.5em;
 }
 #homepage #head {
-  background: #3aabea;
+  background: #724a6e;
   padding: 3% 0;
   text-align: center;
 }
 #homepage #intro {
-  background: #3aabea;
+  background: #724a6e;
   text-align: center;
   height: 60%;
+  color: #fff;
 }
 #homepage #intro h1 {
   padding: 1.5em 0;
@@ -275,7 +285,7 @@ footer p:nth-child(1) {
   border-radius: 5px;
 }
 #homepage #intro input[type=submit] {
-  background: #147eb9;
+  background: #3596ff;
   border-radius: 5px;
   border: 0;
   color: #fff;
@@ -283,7 +293,7 @@ footer p:nth-child(1) {
   padding: 12px 20px;
 }
 #homepage #intro input[type=submit]:hover {
-  background: #116c9e;
+  background: #49a0ff;
 }
 #homepage #description {
   padding: 10px;
@@ -304,29 +314,25 @@ footer p:nth-child(1) {
 #room h1 {
   color: #c7d2df;
 }
-#room #as {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  color: #666;
-  font-size: 12px;
+#room a.chantbox {
+  color: #724a6e;
+  text-decoration: none;
 }
 #room #sidebar {
   width: 300px;
-  background: #2a3541;
+  background: #2f142d;
   color: #fff;
   position: absolute;
   left: 0;
   top: 0;
   height: 100%;
 }
-#room #sidebar a.logo {
-  font-size: 14px;
-}
 #room #sidebar .onroom {
-  font-size: 0.9em;
-  background: #425366;
+  background: #7200ff;
   padding: 5px 0 5px 10px;
+  font-weight: 300;
+  font-size: 1.2em;
+  font-family: 'Lato';
 }
 #room #sidebar ul li {
   padding: 10px;
@@ -347,7 +353,17 @@ footer p:nth-child(1) {
   color: #aaa;
 }
 #room #sidebar li {
-  border-bottom: 1px solid #425366;
+  border-bottom: 1px solid #5e285a;
+}
+#room #sidebar .room_type {
+  padding: 10px;
+  font-size: 0.9em;
+}
+#room #sidebar .room_type.room_type_anonymous {
+  background: #d59727;
+}
+#room #sidebar .room_type.room_type_fixed {
+  background: #53b653;
 }
 #room #chatter {
   position: absolute;

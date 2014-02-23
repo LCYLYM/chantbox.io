@@ -7,12 +7,10 @@
   h1 
     color #C7D2DF
 
-  #as 
-    position absolute
-    top 10px
-    right 10px
-    color #666
-    font-size 12px
+  a.chantbox
+    color #724a6e
+    text-decoration none
+
 
   #sidebar
     width 300px
@@ -23,13 +21,12 @@
     top 0
     height 100%
 
-    a.logo
-      font-size 14px
-
     .onroom
-      font-size 0.9em
-      background lighten($bg2, 15%)
+      background #7200FF
       padding 5px 0 5px 10px
+      font-weight 300
+      font-size 1.2em
+      font-family 'Lato'
 
     ul li
       padding 10px
@@ -48,6 +45,15 @@
 
     li 
       border-bottom 1px solid lighten($bg2, 15%)
+
+    .room_type
+      padding 10px
+      font-size 0.9em
+      &.room_type_anonymous 
+        background #D59727
+      &.room_type_fixed
+        background #53B653
+
 
   #chatter
     position absolute

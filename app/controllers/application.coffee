@@ -10,3 +10,16 @@ module.exports = class ApplicationController
 
   index: =>
     @c.render {page: "homepage"}
+
+  room: =>
+    @c.Room.getOrCreate @c.req.params.room, @c.req.query, @c.req.user, (err, room) =>
+      return @error(err) if err
+      @c.render {
+        title: @c.app.locals.title + " | " + room.name
+        room: room
+        page: "room"
+      }
+
+  error: (m) =>
+    console.error "Error: #{m}"
+    @c.send 500, m

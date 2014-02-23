@@ -49,10 +49,9 @@ a.logo
 a.sign_in_twitter
   display inline-block
   padding 5px 10px
-  background #A5C6D6
+  background #3596FF
   color #fff
   border-radius 3px
-  box-shadow 0 0 1px #333
   text-decoration none
 
 img.avatar
@@ -68,11 +67,18 @@ img.avatar
     border-radius 15px
 
 #head_login
+  z-index 1
+  position absolute
+  top 10px 
+  right 10px
   a
-    z-index 1
-    position absolute
-    top 5px 
-    right 5px
+    text-decoration none
+    display inline-block
+    margin-left 10px
+    padding-left 10px
+    border-left 1px solid #e5e5e5
+    &:nth-child(1)
+      border 0
 
 footer
   text-align center
