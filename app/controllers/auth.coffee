@@ -44,7 +44,7 @@ module.exports = class Auth
               if not user.createdAt
                 user.createdAt = new Date 
                 user.save()
-              redirectTo = c.req.signedCookies.roomRef if c.req.signedCookies.roomRef
+              redirectTo = '/r/' + c.req.signedCookies.roomRef if c.req.signedCookies.roomRef
               clearCookies(c)
               c.res.cookie 'i', user._id.toString()
               c.redirect redirectTo + '?' + (new Date).getTime()
