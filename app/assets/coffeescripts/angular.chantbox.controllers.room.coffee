@@ -14,6 +14,7 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', '$window', '
 
   # instance vars
   connected = false
+  me = null
   focus = true
   unread = 0
   title = document.title
@@ -40,8 +41,10 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', '$window', '
   socket.on 'join', (users) ->
     setUsersList users
 
-  socket.on 'ready', ->
+  socket.on 'ready', (_me) ->
     connected = true
+    me = _me
+    updateUnreadCounter 0
     join()
 
   socket.on 'leave', (users) ->
@@ -49,8 +52,8 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', '$window', '
 
   socket.on 'message', (data) ->
     # return notify(data.content, true) if data.type is 'system'
-    if not focus
-      updateUnreadCounter ++unread
+    if not focus and (data.user? and data.user.screen_name isnt me.screen_name) # not focused, not me
+      updateUnreadCounter ++unread 
       chime.play() if chime and data.type isnt 'system'
     message data
 

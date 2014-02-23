@@ -1,7 +1,7 @@
 (function() {
   window.chantbox.controller('RoomController', [
     '$scope', '$timeout', '$window', 'Socket', 'Chatter', function($scope, $timeout, $window, socket, Chatter) {
-      var audio, chime, connected, focus, join, message, notify, setUsersList, title, unread, updateUnreadCounter;
+      var audio, chime, connected, focus, join, me, message, notify, setUsersList, title, unread, updateUnreadCounter;
       audio = document.createElement('audio');
       chime = !!(audio.canPlayType && audio.canPlayType('audio/mpeg;').replace(/no/, '')) ? new Audio('/sounds/chime.wav') : false;
       (function() {
@@ -11,6 +11,7 @@
       $scope.users = {};
       $scope.notification = '';
       connected = false;
+      me = null;
       focus = true;
       unread = 0;
       title = document.title;
@@ -35,15 +36,17 @@
       socket.on('join', function(users) {
         return setUsersList(users);
       });
-      socket.on('ready', function() {
+      socket.on('ready', function(_me) {
         connected = true;
+        me = _me;
+        updateUnreadCounter(0);
         return join();
       });
       socket.on('leave', function(users) {
         return setUsersList(users);
       });
       socket.on('message', function(data) {
-        if (!focus) {
+        if (!focus && ((data.user != null) && data.user.screen_name !== me.screen_name)) {
           updateUnreadCounter(++unread);
           if (chime && data.type !== 'system') {
             chime.play();

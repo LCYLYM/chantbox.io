@@ -1,7 +1,9 @@
 module.exports = (sockets, socket, Room) -> 
 
   users = (room) ->
-    sockets.clients(room).map (client) -> client.user
+    list = {}
+    sockets.clients(room).map (client) -> list[client.user.screen_name] = client.user
+    return list
 
   message = (type, content, user) ->
     source = type + (if user? then ", #{user.screen_name}" else '') + ", ##{socket.room}" 
@@ -30,5 +32,5 @@ module.exports = (sockets, socket, Room) ->
 
   # init
   do (socket) ->
-    socket.emit 'ready'
+    socket.emit 'ready', socket.user
  
