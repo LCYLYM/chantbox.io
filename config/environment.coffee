@@ -30,4 +30,3 @@ module.exports = (compound) ->
   io.sockets.on 'connection', (socket) ->
     authentication.authenticateSocket socket, (err, socket) ->
       require('../app/events/rooms')(io.sockets, socket, compound.models.Room) 
-

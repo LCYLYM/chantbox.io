@@ -1,22 +1,24 @@
-#head_login
-  a(href=pathTo.root()) chantbox.io
-  if (user)
-    a(href='/auth/logout') !{avatar(user, 'small')} logout
-  if (!user)
-    a(href="/auth/twitter?room=#{room.name}") Login with Twitter
+section#room(ng-controller='RoomController', ng-init='roomName="#{room}"')
+  #head_login
+    a(href=pathTo.root()) chantbox.io
+    if (user)
+      a(href='/auth/logout') !{avatar(user, 'small')} logout
+    if (!user)
+      a(ng-href="/auth/twitter?room={{room.name}}") Login with Twitter
 
-section#room(ng-controller='RoomController', ng-init='room="#{room.name}"')
   section#sidebar
-    if (room.settings.fixed)
-      div(class="room_type room_type_fixed")
-        p Fixed room, conversations are ON record.
-        p You can visit it again by using the same URL
-        p Room created by @#{room.creator.screen_name}
-    else
-      div(class="room_type room_type_anonymous") 
-        p Temporary room, conversations are off record
+    div(class="room_type room_type_fixed", ng-show="room.settings.fixed")
+      p Fixed room (created by {{room.creator.screen_name}})
+      p You can visit it again by using the same URL
+      p and share it with other participants
+      input(ng-value="url", readonly, onfocus="this.select()", onmouseup="return false")
+    div(class="room_type room_type_anonymous", ng-show="!room.settings.fixed")
+      p Temporary room - conversation is off record
+      p(ng-show="!me._id") <a ng-href="#{pathTo.twitter_auth}?room={{room.name}}">Login</a> to turn this to a fixed room
+      p(ng-show="me._id") <a href="?fixed=1">Fixate room</a>
+      input(ng-value="url", readonly, onfocus="this.select()", onmouseup="return false")
 
-    h5.onroom Users on ##{room.name}
+    h5.onroom Users on \#{{room.name}}
     ul.users
       li(ng-repeat="u in users")
         img(ng-src="{{u.avatar}}", width="48", height="48", class="avatar normal")
@@ -24,7 +26,7 @@ section#room(ng-controller='RoomController', ng-init='room="#{room.name}"')
         .joined Online
 
   section#chatter
-    h1 ##{room.name}
+    h1 \#{{room.name}}
 
     ul
       li(ng-repeat="m in messages", ng-class="m.type")

@@ -1,7 +1,7 @@
 (function() {
   window.chantbox.controller('RoomController', [
     '$scope', '$timeout', '$window', 'Socket', 'Chatter', function($scope, $timeout, $window, socket, Chatter) {
-      var audio, chime, connected, focus, join, me, message, notify, setUsersList, title, unread, updateUnreadCounter;
+      var audio, chime, connected, focus, join, message, notify, setUsersList, title, unread, updateUnreadCounter;
       audio = document.createElement('audio');
       chime = !!(audio.canPlayType && audio.canPlayType('audio/mpeg;').replace(/no/, '')) ? new Audio('/sounds/chime.wav') : false;
       (function() {
@@ -10,8 +10,10 @@
       $scope.messages = [];
       $scope.users = {};
       $scope.notification = '';
+      $scope.room = {};
+      $scope.me = null;
+      $scope.url = location.href.split("?")[0];
       connected = false;
-      me = null;
       focus = true;
       unread = 0;
       title = document.title;
@@ -36,9 +38,13 @@
       socket.on('join', function(users) {
         return setUsersList(users);
       });
-      socket.on('ready', function(_me) {
+      socket.on('room', function(room, me) {
+        $scope.room = room;
+        $scope.me = me;
+        return $scope.$apply();
+      });
+      socket.on('ready', function(me) {
         connected = true;
-        me = _me;
         updateUnreadCounter(0);
         return join();
       });
@@ -46,7 +52,7 @@
         return setUsersList(users);
       });
       socket.on('message', function(data) {
-        if (!focus && ((data.user != null) && data.user.screen_name !== me.screen_name)) {
+        if (!focus && ((data.user != null) && data.user.screen_name !== $scope.me.screen_name)) {
           updateUnreadCounter(++unread);
           if (chime && data.type !== 'system') {
             chime.play();
@@ -88,7 +94,10 @@
         }
       };
       join = function() {
-        return socket.emit('join', $scope.room, location.href.indexOf("fixed=1") > -1, $scope.messages.length === 0);
+        var fixed, getHistory;
+        fixed = location.href.indexOf("fixed=1") > -1;
+        getHistory = $scope.messages.length === 0;
+        return socket.emit('join', $scope.roomName, fixed, getHistory);
       };
       setUsersList = function(users) {
         $scope.users = users;

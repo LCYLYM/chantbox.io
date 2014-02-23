@@ -11,8 +11,7 @@ module.exports = (compound, Room) ->
 
       # create a new room
       if not room
-        return callback('anonymous users cannot create persistent rooms', null) if fixed and not user
-        settings = {fixed: false} if not fixed 
+        settings = {fixed: false} if not fixed or not user
         settings = {fixed: true} if fixed and user
         Room.create {name: name, settings: settings, creator: user?._id, createdAt: new Date}, (err, room) ->
           callback err, room, true

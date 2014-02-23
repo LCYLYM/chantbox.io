@@ -11,10 +11,12 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', '$window', '
   $scope.messages = []
   $scope.users = {}
   $scope.notification = ''
+  $scope.room = {}
+  $scope.me = null
+  $scope.url = location.href.split("?")[0]
 
   # instance vars
   connected = false
-  me = null
   focus = true
   unread = 0
   title = document.title
@@ -41,9 +43,13 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', '$window', '
   socket.on 'join', (users) ->
     setUsersList users
 
-  socket.on 'ready', (_me) ->
+  socket.on 'room', (room, me) ->
+    $scope.room = room
+    $scope.me = me
+    $scope.$apply()
+
+  socket.on 'ready', (me) ->
     connected = true
-    me = _me
     updateUnreadCounter 0
     join()
 
@@ -52,7 +58,7 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', '$window', '
 
   socket.on 'message', (data) ->
     # return notify(data.content, true) if data.type is 'system'
-    if not focus and (data.user? and data.user.screen_name isnt me.screen_name) # not focused, not me
+    if not focus and (data.user? and data.user.screen_name isnt $scope.me.screen_name) # not focused, not me
       updateUnreadCounter ++unread 
       chime.play() if chime and data.type isnt 'system'
     message data
@@ -79,7 +85,9 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', '$window', '
       $timeout clear, 2000
 
   join = ->
-    socket.emit 'join', $scope.room, (location.href.indexOf("fixed=1") > -1), $scope.messages.length==0
+    fixed = (location.href.indexOf("fixed=1") > -1)
+    getHistory = $scope.messages.length==0
+    socket.emit 'join', $scope.roomName, fixed, getHistory
 
   setUsersList = (users) ->
     $scope.users = users
