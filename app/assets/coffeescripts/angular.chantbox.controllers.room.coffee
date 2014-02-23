@@ -1,4 +1,7 @@
-window.chantbox.controller 'RoomController', ['$scope', '$timeout', 'Socket', 'Chatter', ($scope, $timeout, socket, Chatter) ->
+window.chantbox.controller 'RoomController', ['$scope', '$timeout', '$window', 'Socket', 'Chatter', ($scope, $timeout, $window, socket, Chatter) ->
+
+  audio = document.createElement('audio');
+  chime = if !!(audio.canPlayType && audio.canPlayType('audio/mpeg;').replace(/no/, '')) then new Audio('/sounds/chime.wav') else false
 
   do ->
     # focus on input on load
@@ -8,6 +11,14 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', 'Socket', 'C
   $scope.users = {}
   $scope.notification = ''
   connected = false
+
+  focus = true
+  unread = 0
+  title = document.title
+  angular.element($window).on 'blur', -> focus = false
+  angular.element($window).on 'focus', -> 
+    focus = true
+    updateUnreadCounter 0
   
   socket.on 'connect', ->
     notify 'Connected', true
@@ -32,6 +43,9 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', 'Socket', 'C
 
   socket.on 'message', (data) ->
     # return notify(data.content, true) if data.type is 'system'
+    if not focus
+      updateUnreadCounter ++unread
+      chime.play() if chime and data.type isnt 'system'
     message data
 
   $scope.send = ($event) ->
@@ -61,6 +75,10 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', 'Socket', 'C
   setUsersList = (users) ->
     $scope.users = users
     $scope.$apply()
+
+  updateUnreadCounter = (c) ->
+    unread = c
+    document.title = (if unread then "(#{unread}) " else '') + title
 
   #init 
   do ->
