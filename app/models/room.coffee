@@ -32,3 +32,9 @@ module.exports = (compound, Room) ->
         callback err, @users if callback
     else
       callback null, @users if callback
+
+  Room.prototype.kill = (callback) ->
+    return callback 'cannot remove a room with users' if @users.length > 0
+    return callback 'cannot remove a fixed room' if @settings.fixed
+    @remove (err) ->
+      callback err if callback

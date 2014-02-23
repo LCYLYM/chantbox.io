@@ -70,6 +70,26 @@ describe 'Model: Room', ->
           room.users.indexOf('screen_name').should.equal -1
           done()
 
-  it 'should destory a temp room with no users'
-  it 'should not destory a temp room with no users'
-  it 'should not destory a fixed room'
+  it 'should not destory a temp room with users', (done) ->
+    Room.getOrCreate 'temp1', {}, null, (err, room, created) ->
+      room.addUser 'screen_name', (err) ->
+        room.kill (err) ->
+          expect(err).to.equal 'cannot remove a room with users'
+          Room.findOne room._id, (err, room) ->
+            expect(room).not.to.equal null
+            done() 
+
+  it 'should not destory a fixed room', (done) ->
+    Room.getOrCreate 'fixed', {fixed: true}, new User({name: 'some_user'}), (err, room, created) ->
+      room.kill (err) ->
+        expect(err).to.equal 'cannot remove a fixed room'
+        done() 
+
+  it 'should destory a temp room with no users', (done) -> 
+    Room.getOrCreate 'temp1', {}, null, (err, room, created) ->
+      room.removeUser 'screen_name', (err) ->
+        room.kill (err) ->
+          expect(err).to.equal null
+          Room.findOne room._id, (err, room) ->
+            expect(room).to.equal null
+            done() 

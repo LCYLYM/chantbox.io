@@ -7,7 +7,6 @@
 
 section#room(ng-controller='RoomController', ng-init='room="#{room.name}"')
   section#sidebar
-    if (room.settings.fixed)
       div(class="room_type room_type_fixed")
         p Fixed room, conversations are ON record.
         p You can visit it again by using the same URL
