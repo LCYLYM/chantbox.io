@@ -1,4 +1,7 @@
 module.exports = (compound, Room) ->
+
+  Room = compound.models.Room
+  Line = compound.models.Line
   
   Room.getOrCreate = (name, params, user, callback) ->
     fixed = params.fixed
@@ -22,4 +25,12 @@ module.exports = (compound, Room) ->
     @remove (err) =>
       console.log "Room.prototype.kill #{@name}"
       callback err
-      
+
+  Room.prototype.addLine = (data, callback=->) ->
+    data.createAt = new Date
+    data.room = @id
+    compound.models.Line.create data, callback
+
+  Room.prototype.getLines = (limit, skip, callback) ->
+    Line.find {room: @id, type: {$ne: 'system'}}, null, {limit: limit, skip: skip, sort: '-createdAt'}, (err, lines) ->
+      callback err, lines.reverse()

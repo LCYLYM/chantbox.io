@@ -1,13 +1,14 @@
 to do
 =====
 
+* room settings
+
+* guests are users, assign to id
 * lint twitter hash tag on active room
 * persistent rooms
 * persistent data
 
 * private messages
-* sounds (when blur)
-* unread badge
 
 * online indication
 * links preview
@@ -26,3 +27,7 @@ done
 * scroll to bottom
 * switch to mongoose
 * authenticate users with twitter
+* return to room after sign in
+* auto detect host url for callback
+* sounds (when blur)
+* unread badge

@@ -21,12 +21,12 @@ module.exports = (mongoose, compound) ->
   compound.models.Room = Room 
 
   Line = mongoose.model 'Line', mongoose.Schema {
-    type: {type: String}
-    user: {type: mongoose.Schema.ObjectId, ref: 'User'}
+    type: {type: String, index: true}
+    user: {type: {}}
     content: {type: String}
-    data: {type: {}}
+    extra: {type: {}}
+    room: {type: mongoose.Schema.ObjectId, ref: 'Room', index: true}
     createdAt: {type: Date, default: new Date, index: true}
   }
   Line.modelName = 'Line'
   compound.models.Line = Line
-

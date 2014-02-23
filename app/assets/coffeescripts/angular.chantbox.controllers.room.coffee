@@ -79,7 +79,7 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', '$window', '
       $timeout clear, 2000
 
   join = ->
-    socket.emit 'join', $scope.room, (location.href.indexOf("fixed=1") > -1)
+    socket.emit 'join', $scope.room, (location.href.indexOf("fixed=1") > -1), $scope.messages.length==0
 
   setUsersList = (users) ->
     $scope.users = users
