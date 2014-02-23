@@ -39,8 +39,10 @@ module.exports = class Auth
         twitter.verifyCredentials accessToken, accessTokenSecret, (err, data, response) ->
           return c.send 500, err if err
           console.log 'twitter auth - verified user', data.screen_name
-          c.compound.models.User.update {screen_name: data.screen_name}, {$set: {avatar: data.profile_image_url_https}}, {upsert: true}, (err, affected, meta) ->
+          c.compound.models.User.update {screen_name: "@"+data.screen_name}, {$set: {avatar: data.profile_image_url_https}}, {upsert: true}, (err, affected, meta) ->
+            console.error err if err
             c.compound.models.User.findOne {screen_name: "@"+data.screen_name}, (err, user) ->
+              console.error err if err
               if not user.createdAt
                 user.createdAt = new Date 
                 user.save()
@@ -50,7 +52,7 @@ module.exports = class Auth
               c.redirect redirectTo + '?' + (new Date).getTime()
 
   logout: (c) ->
-    console.log "#{c.req.user.screen_name} logout"
+    console.log "#{c.req.user?.screen_name} logout"
     clearCookies(c)
     c.redirect c.path_to.root()
 
