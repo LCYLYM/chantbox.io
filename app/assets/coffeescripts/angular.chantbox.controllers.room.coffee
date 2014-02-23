@@ -7,16 +7,22 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', '$window', '
     # focus on input on load
     document.getElementById("input").focus()
 
+  # scope vars
   $scope.messages = []
   $scope.users = {}
   $scope.notification = ''
-  connected = false
 
+  # instance vars
+  connected = false
   focus = true
   unread = 0
   title = document.title
-  angular.element($window).on 'blur', -> focus = false
-  angular.element($window).on 'focus', -> 
+
+  # window events
+  angular.element($window).on 'blur', -> 
+    focus = false
+
+  angular.element($window).on 'focus', ->
     focus = true
     updateUnreadCounter 0
   
