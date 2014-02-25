@@ -83,7 +83,7 @@
             return t = setTimeout(function() {
               _status = 'Idle';
               return socket.emit('status', _status);
-            }, 5000);
+            }, 60 * 1000);
           }
         })();
       };
