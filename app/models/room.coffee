@@ -21,11 +21,15 @@ module.exports = (compound, Room) ->
       
   Room.prototype.kill = (callback=->) ->
     return callback 'cannot remove a fixed room' if @settings.fixed
-    @remove (err) =>
-      console.log "Room.prototype.kill #{@name}"
-      callback err
+    compound.models.Line.remove {room: @id}, (err) =>
+      console.error err if err
+      console.log "Removed lines from ##{@name}"
+      @remove (err) =>
+        console.log "Room.prototype.kill #{@name}"
+        callback err
 
   Room.prototype.addLine = (data, callback=->) ->
+    return callback() if not @settings.fixed
     data.createAt = new Date
     data.room = @id
     compound.models.Line.create data, callback

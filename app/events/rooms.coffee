@@ -35,7 +35,7 @@ module.exports = (sockets, socket, Room) ->
     socket.leave socket.room.name, ->
       sockets.in(socket.room.name).emit 'leave', users(socket.room.name)
       message 'system', "#{socket.user.screen_name} left #{socket.room.name}"
-      # socket.room.kill() if Object.keys(users(socket.room.name)).length == 0
+      socket.room.kill() if Object.keys(users(socket.room.name)).length == 0
 
   socket.on 'message', (content) ->
     message 'user', content, socket.user
