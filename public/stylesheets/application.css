@@ -347,10 +347,30 @@ footer p:nth-child(1) {
   padding-top: 2px;
   display: block;
 }
-#room #sidebar ul li .joined {
+#room #sidebar ul li .status {
   display: block;
   font-size: 12px;
   color: #aaa;
+}
+#room #sidebar ul li .status i {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #aaa;
+  border-radius: 4px;
+  margin-right: 5px;
+}
+#room #sidebar ul li .status.typing {
+  font-style: italic;
+}
+#room #sidebar ul li .status.online i,
+#room #sidebar ul li .status.typing i,
+#room #sidebar ul li .status.joined i {
+  background: #00eb4f;
+}
+#room #sidebar ul li .status.away i,
+#room #sidebar ul li .status.idle i {
+  background: #ffc600;
 }
 #room #sidebar li {
   border-bottom: 1px solid #5e285a;

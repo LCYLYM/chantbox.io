@@ -23,7 +23,9 @@ section#room(ng-controller='RoomController', ng-init='roomName="#{room}"')
       li(ng-repeat="u in users")
         img(ng-src="{{u.avatar}}", width="48", height="48", class="avatar normal")
         .name {{u.screen_name}}
-        .joined Online
+        .status(ng-class="u.status.toLowerCase().replace('...', '')")
+          i
+          |{{u.status}}
 
   section#chatter
     h1 \#{{room.name}}
