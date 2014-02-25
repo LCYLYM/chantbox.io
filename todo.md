@@ -1,10 +1,11 @@
 to do
 =====
 
-* online indication, away, typing
 * links preview, image, youtube, twitter
 * invite people (social share)
 * room settings (no guests, invite only)
+* digests
+* public rooms on homepage
 
 * lint twitter hash tag on active room
 * private messages
@@ -28,3 +29,4 @@ done
 * unread badge
 * persistent rooms
 * persistent data
+* online indication, away, typing
