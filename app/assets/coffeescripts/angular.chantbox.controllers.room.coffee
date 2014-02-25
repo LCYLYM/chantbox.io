@@ -69,7 +69,7 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', '$window', '
         t = setTimeout ->
           _status = 'Idle'
           socket.emit 'status', _status
-        , 60*1000
+        , 60*1000 
 
   # window events
   angular.element($window).on 'blur', ->
