@@ -57,24 +57,21 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', '$window', '
     do ->
       if $input.val() 
         status = 'Typing...'
-      else if focused 
+      else
         status = 'Online'
-      else if not focused 
-        status = 'Away'
       if _status isnt status
         _status = status
         socket.emit 'status', status
 
         clearTimeout(t) if typeof(t) is 'number'
         t = setTimeout ->
-          _status = 'Idle'
+          _status = 'Away'
           socket.emit 'status', _status
-        , 60*1000 
+        , 30*1000 
 
   # window events
   angular.element($window).on 'blur', ->
     focused = false
-    setStatus()
 
   angular.element($window).on 'focus', ->
     focused = true
