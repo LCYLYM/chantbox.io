@@ -21,7 +21,6 @@ module.exports = (sockets, socket, Room) ->
       socket.join room.name, ->
         socket.room = room
         sockets.in(room.name).emit 'join', users(room.name)
-        console.log users(room.name)
         socket.emit 'room', room, socket.user
         if getHistory
           room.getLines 10, 0, (err, lines) =>
