@@ -69,10 +69,8 @@
           var status;
           if ($input.val()) {
             status = 'Typing...';
-          } else if (focused) {
+          } else {
             status = 'Online';
-          } else if (!focused) {
-            status = 'Away';
           }
           if (_status !== status) {
             _status = status;
@@ -81,15 +79,14 @@
               clearTimeout(t);
             }
             return t = setTimeout(function() {
-              _status = 'Idle';
+              _status = 'Away';
               return socket.emit('status', _status);
-            }, 60 * 1000);
+            }, 30 * 1000);
           }
         })();
       };
       angular.element($window).on('blur', function() {
-        focused = false;
-        return setStatus();
+        return focused = false;
       });
       angular.element($window).on('focus', function() {
         focused = true;
