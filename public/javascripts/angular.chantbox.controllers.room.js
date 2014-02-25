@@ -1,72 +1,27 @@
 (function() {
   window.chantbox.controller('RoomController', [
     '$scope', '$timeout', '$window', 'Socket', 'Chatter', function($scope, $timeout, $window, socket, Chatter) {
-      var audio, chime, connected, focus, join, message, notify, setUsersList, title, unread, updateUnreadCounter;
+      var $input, audio, chime, connected, focused, join, message, notify, setStatus, setUsersList, title, unread, updateUnreadCounter, _status;
       audio = document.createElement('audio');
       chime = !!(audio.canPlayType && audio.canPlayType('audio/mpeg;').replace(/no/, '')) ? new Audio('/sounds/chime.wav') : false;
-      (function() {
-        return document.getElementById("input").focus();
-      })();
       $scope.messages = [];
       $scope.users = {};
       $scope.notification = '';
       $scope.room = {};
       $scope.me = null;
       $scope.url = location.href.split("?")[0];
+      $input = angular.element(document.getElementById("input"));
+      (function($input) {
+        $input[0].focus();
+        return $input.on('keyup', function() {
+          return setStatus();
+        });
+      })($input);
       connected = false;
-      focus = true;
+      focused = true;
       unread = 0;
       title = document.title;
-      angular.element($window).on('blur', function() {
-        return focus = false;
-      });
-      angular.element($window).on('focus', function() {
-        focus = true;
-        return updateUnreadCounter(0);
-      });
-      socket.on('connect', function() {
-        return notify('Connected', true);
-      });
-      socket.on('disconnect', function() {
-        notify('Disconnected from server... trying to reconnect');
-        setUsersList({});
-        return connected = false;
-      });
-      socket.on('reconnect', function() {
-        return notify('Reconnected', true);
-      });
-      socket.on('join', function(users) {
-        return setUsersList(users);
-      });
-      socket.on('room', function(room, me) {
-        $scope.room = room;
-        $scope.me = me;
-        return $scope.$apply();
-      });
-      socket.on('ready', function(me) {
-        connected = true;
-        updateUnreadCounter(0);
-        return join();
-      });
-      socket.on('leave', function(users) {
-        return setUsersList(users);
-      });
-      socket.on('message', function(data) {
-        if (!focus && ((data.user != null) && data.user.screen_name !== $scope.me.screen_name)) {
-          updateUnreadCounter(++unread);
-          if (chime && data.type !== 'system') {
-            chime.play();
-          }
-        }
-        return message(data);
-      });
-      $scope.send = function($event) {
-        if ($event.which !== 13 || !$event.target.value.trim() || !connected) {
-          return;
-        }
-        socket.emit('message', $event.target.value);
-        return $event.target.value = '';
-      };
+      _status = '';
       message = function(data) {
         $scope.messages.push({
           time: new Date,
@@ -106,6 +61,94 @@
       updateUnreadCounter = function(c) {
         unread = c;
         return document.title = (unread ? "(" + unread + ") " : '') + title;
+      };
+      setStatus = function() {
+        var t;
+        t = null;
+        return (function() {
+          var status;
+          if ($input.val()) {
+            status = 'Typing...';
+          } else if (focused) {
+            status = 'Online';
+          } else if (!focused) {
+            status = 'Away';
+          }
+          if (_status !== status) {
+            _status = status;
+            socket.emit('status', status);
+            if (typeof t === 'number') {
+              clearTimeout(t);
+            }
+            return t = setTimeout(function() {
+              _status = 'Idle';
+              return socket.emit('status', _status);
+            }, 5000);
+          }
+        })();
+      };
+      angular.element($window).on('blur', function() {
+        focused = false;
+        return setStatus();
+      });
+      angular.element($window).on('focus', function() {
+        focused = true;
+        updateUnreadCounter(0);
+        return setStatus();
+      });
+      angular.element($window).on('mousemove', function() {
+        return setStatus();
+      });
+      socket.on('connect', function() {
+        return notify('Connected', true);
+      });
+      socket.on('disconnect', function() {
+        notify('Disconnected from server... trying to reconnect');
+        setUsersList({});
+        return connected = false;
+      });
+      socket.on('reconnect', function() {
+        return notify('Reconnected', true);
+      });
+      socket.on('join', function(users) {
+        return setUsersList(users);
+      });
+      socket.on('room', function(room, me) {
+        $scope.room = room;
+        $scope.me = me;
+        return $scope.$apply();
+      });
+      socket.on('ready', function() {
+        connected = true;
+        updateUnreadCounter(0);
+        setStatus();
+        return join();
+      });
+      socket.on('leave', function(users) {
+        return setUsersList(users);
+      });
+      socket.on('message', function(data) {
+        if (!focused && ((data.user != null) && data.user.screen_name !== $scope.me.screen_name)) {
+          updateUnreadCounter(++unread);
+          if (chime && data.type !== 'system') {
+            chime.play();
+          }
+        }
+        return message(data);
+      });
+      socket.on('status', function(screen_name, status) {
+        if ($scope.users[screen_name]) {
+          $scope.users[screen_name].status = status;
+          return $scope.$apply();
+        }
+      });
+      $scope.send = function($event) {
+        if ($event.which !== 13 || !$event.target.value.trim() || !connected) {
+          return;
+        }
+        socket.emit('message', $event.target.value);
+        $event.target.value = '';
+        return setStatus();
       };
       return (function() {
         return notify("Connecting to #" + $scope.room + "...");

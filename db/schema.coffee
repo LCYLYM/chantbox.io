@@ -4,6 +4,7 @@ module.exports = (mongoose, compound) ->
     screen_name: {type: String, index: {unique: true, sparse: true}}
     avatar: String
     createdAt: {type: Date, default: new Date}
+    status: String
   }
   User.modelName = 'User'
   compound.models.User = User

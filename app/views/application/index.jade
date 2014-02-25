@@ -12,7 +12,7 @@ section#intro
   .container
     h1 effortlessly chat & chant with friends and colleagues
     form(onsubmit="location.href='/r/'+this.room.value; return false")
-      | chantbox.io/
+      | chantbox.io/r/
       input(type="text", name="room", value=randomHash())
       input(type="submit", value="JOIN")
 
