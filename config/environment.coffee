@@ -24,6 +24,7 @@ module.exports = (compound) ->
     app.use authentication.authenticate
 
     app.locals.title = 'chantbox.io'
+    app.locals.pretty = true
     app.use app.router
 
   # assign socket.io room events
