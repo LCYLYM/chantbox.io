@@ -1,15 +1,13 @@
 to do
 =====
 
-* links preview, image, youtube, twitter
+* links preview, image, youtube, twitter (use olly.js)
 * invite people (social share)
-* room settings (no guests, invite only)
+* room settings (no guests, invite only, passwords)
 * digests
 * public rooms on homepage
-
 * lint twitter hash tag on active room
 * private messages
-
 * responsive
 * chrome notifications (when blur)
 
