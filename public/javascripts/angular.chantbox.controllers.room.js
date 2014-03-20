@@ -62,10 +62,10 @@
         unread = c;
         return document.title = (unread ? "(" + unread + ") " : '') + title;
       };
-      setStatus = function() {
+      setStatus = (function() {
         var t;
         t = null;
-        return (function() {
+        return function() {
           var status;
           if ($input.val()) {
             status = 'Typing...';
@@ -83,8 +83,8 @@
               return socket.emit('status', _status);
             }, 30 * 1000);
           }
-        })();
-      };
+        };
+      })();
       angular.element($window).on('blur', function() {
         return focused = false;
       });
@@ -148,7 +148,7 @@
         return setStatus();
       };
       return (function() {
-        return notify("Connecting to #" + $scope.room + "...");
+        return notify("Connecting to #" + $scope.room.name + "...");
       })();
     }
   ]);
