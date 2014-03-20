@@ -16,7 +16,7 @@ module.exports = (sockets, socket, Room) ->
   privateMessage = (toSocket, type, content, user) ->
     data = {content: content, type: type, user: user}
     source = type + (if user? then ", #{user.screen_name}" else '') + ", ##{socket.room.name}" 
-    console.log "Room.emit.message (#{source}): #{content}"
+    console.log "Room.emit.privateMessage to #{toSocket.user.screen_name}"
     toSocket.emit 'message', data
 
   socket.on 'join', (room, fixed, getHistory) ->
@@ -49,7 +49,7 @@ module.exports = (sockets, socket, Room) ->
     if socket.room
       console.log "status: #{socket.user.screen_name} in ##{socket.room.name} is #{status}"
       socket.user.status = status
-      socket.in(socket.room.name).emit 'status', socket.user.screen_name, status
+      sockets.in(socket.room.name).emit 'status', socket.user.screen_name, status
 
   # init
   do (socket) ->

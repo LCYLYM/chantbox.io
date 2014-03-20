@@ -52,9 +52,9 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', '$window', '
     unread = c
     document.title = (if unread then "(#{unread}) " else '') + title
 
-  setStatus = ->
+  setStatus = do ->
     t = null
-    do ->
+    return ->
       if $input.val() 
         status = 'Typing...'
       else
@@ -129,6 +129,6 @@ window.chantbox.controller 'RoomController', ['$scope', '$timeout', '$window', '
 
   #init 
   do ->
-    notify "Connecting to ##{$scope.room}..."
+    notify "Connecting to ##{$scope.room.name}..."
 
 ]
