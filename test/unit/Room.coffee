@@ -24,8 +24,8 @@ describe 'Model: Room', ->
 
   it 'shouldnt create a fixed room only for an anonymous user', (done) ->
     Room.getOrCreate 'temp2', {fixed: "1"}, null, (err, room) ->
-      expect(err).to.equal 'anonymous users cannot create persistent rooms'
-      expect(room).to.equal null
+      expect(err).to.equal null
+      room.settings.fixed.should.equal false
       done()
 
   it 'should create a temp room for a user', (done) ->
