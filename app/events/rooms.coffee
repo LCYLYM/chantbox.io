@@ -13,6 +13,12 @@ module.exports = (sockets, socket, Room) ->
       sockets.in(socket.room.name).emit 'message', data
       socket.room.addLine data if log # if room.settings.fixed
 
+  privateMessage = (toSocket, type, content, user) ->
+    data = {content: content, type: type, user: user}
+    source = type + (if user? then ", #{user.screen_name}" else '') + ", ##{socket.room.name}" 
+    console.log "Room.emit.message (#{source}): #{content}"
+    toSocket.emit 'message', data
+
   socket.on 'join', (room, fixed, getHistory) ->
     console.log "Room.on.join: #{socket.user.screen_name} joins #{room}"
     socket.user.status = 'Joined'
@@ -22,12 +28,11 @@ module.exports = (sockets, socket, Room) ->
         socket.room = room
         sockets.in(room.name).emit 'join', users(room.name)
         socket.emit 'room', room, socket.user
+        message 'system', "#{socket.user.screen_name} joined ##{socket.room.name}"
         if getHistory
           room.getLines 10, 0, (err, lines) =>
-            message l.type, l.content, l.user, false for l in lines
-            message 'system', "#{socket.user.screen_name} joined ##{socket.room.name}"
-        else
-          message 'system', "#{socket.user.screen_name} joined ##{socket.room.name}"
+            # emit room history just to this socket
+            privateMessage socket, l.type, l.content, l.user for l in lines
 
   socket.on 'disconnect', ->
     return if not socket.room
