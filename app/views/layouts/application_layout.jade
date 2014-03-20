@@ -6,6 +6,8 @@ html
     script(src='/socket.io/socket.io.js', type='text/javascript')
     != javascriptIncludeTag('https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js')
     != javascriptIncludeTag('angular.chantbox.app', 'angular.chantbox.services.socket', 'angular.chantbox.services.chatter', 'angular.chantbox.controllers.room')
+    meta(property="og:image", content="/images/chantbox.png")
+    link(href="/images/chantbox.png", rel="image_src")
 
   body(ng-app='chantbox', id=page)
     != body

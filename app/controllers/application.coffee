@@ -9,10 +9,10 @@ module.exports = class ApplicationController
       c.next() 
 
   index: =>
-    @c.render {page: "homepage"}
+    @c.render {page: "homepage", title: "Chantbox.io"}
 
   room: =>
-    @c.render {page: "room", room: @c.params.room}
+    @c.render {page: "room", room: @c.params.room, title: "Chantbox.io - ##{@c.params.room}"}
 
   error: (m) =>
     console.error "Error: #{m}"
