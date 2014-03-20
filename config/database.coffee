@@ -7,3 +7,6 @@ module.exports =
     driver: "mongoose"
     url: "mongodb://localhost/chantbox-test"
 
+  production:
+    driver: "mongoose"
+    url: process.env.MONGOHQ_URL
