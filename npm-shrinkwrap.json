@@ -1,6 +1,6 @@
 {
   "name": "chantbox",
-  "version": "0.0.1",
+  "version": "0.0.9",
   "dependencies": {
     "co-assets-compiler": {
       "version": "0.0.1-3",
@@ -497,6 +497,47 @@
               "resolved": "https://registry.npmjs.org/debug/-/debug-0.7.4.tgz"
             }
           }
+        }
+      }
+    },
+    "newrelic": {
+      "version": "1.4.0",
+      "from": "newrelic@",
+      "resolved": "https://registry.npmjs.org/newrelic/-/newrelic-1.4.0.tgz",
+      "dependencies": {
+        "bunyan": {
+          "version": "0.14.6",
+          "from": "bunyan@0.14.6"
+        },
+        "continuation-local-storage": {
+          "version": "2.6.2",
+          "from": "continuation-local-storage@2.6.2",
+          "dependencies": {
+            "emitter-listener": {
+              "version": "1.0.1",
+              "from": "emitter-listener@1.0.1",
+              "dependencies": {
+                "shimmer": {
+                  "version": "1.0.0",
+                  "from": "shimmer@1.0.0"
+                }
+              }
+            },
+            "async-listener": {
+              "version": "0.4.5",
+              "from": "async-listener@0.4.5",
+              "dependencies": {
+                "shimmer": {
+                  "version": "1.0.0",
+                  "from": "shimmer@1.0.0"
+                }
+              }
+            }
+          }
+        },
+        "yakaa": {
+          "version": "0.0.0",
+          "from": "yakaa@0.0.0"
         }
       }
     },
