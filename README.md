@@ -2,9 +2,9 @@
 
 Chantbox is an open source chat room web application for persistent or temporary conversations
 
-Visit and use it on http://chantbox.io
+Visit and use it on https://chantbox.herokuapp.com
 
-Join the #chantbox channel on http://chantbox.io/r/chantbox
+Join the #chantbox channel on https://chantbox.herokuapp.com/r/chantbox
 
 ### Stack
 
